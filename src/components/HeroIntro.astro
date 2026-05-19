@@ -1,0 +1,61 @@
+---
+import { profile } from '../data/profile';
+import { withBase } from '../utils/urls';
+import TagList from './TagList.astro';
+---
+
+<section class="page-shell hero-grid grid min-h-[calc(100vh-4rem)] items-center gap-10 py-14 md:grid-cols-[1.18fr_0.82fr] md:py-20">
+  <div class="reveal">
+    <p class="eyebrow">Web Developer</p>
+    <h1 class="mt-5 max-w-4xl text-5xl font-black leading-[0.98] text-[color:var(--ink)] md:text-7xl lg:text-8xl">
+      {profile.name}
+    </h1>
+    <p class="mt-6 max-w-2xl text-xl font-semibold leading-8 text-[color:var(--ink)] md:text-2xl">
+      {profile.role}
+    </p>
+    <p class="mt-5 max-w-2xl text-base leading-8 text-[color:var(--muted)] md:text-lg">
+      {profile.summary}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href={withBase('/portfolio/')}
+        class="motion-button text-panel inline-flex items-center justify-center rounded-full bg-[color:var(--ink)] px-6 py-3 text-sm font-bold transition hover:bg-[color:var(--accent-strong)]"
+      >
+        Lihat Portfolio
+      </a>
+      <a
+        href={withBase('/contact/')}
+        class="motion-button inline-flex items-center justify-center rounded-full border border-[color:var(--ink)] px-6 py-3 text-sm font-bold transition hover:bg-[color:var(--panel)]"
+      >
+        Hubungi Saya
+      </a>
+    </div>
+    <div class="mt-9">
+      <TagList tags={profile.languages.slice(0, 6)} />
+    </div>
+  </div>
+
+  <div class="hero-visual reveal relative [animation-delay:160ms]">
+    <div class="portrait-card aspect-[4/5] overflow-hidden rounded-[8px] border border-[color:var(--line)] bg-[color:var(--panel)] shadow-[0_22px_70px_rgba(23,23,22,0.12)]">
+      <img
+        src={withBase(profile.image)}
+        alt={`Portrait of ${profile.name}`}
+        class="h-full w-full object-cover"
+        loading="eager"
+        decoding="async"
+        width="640"
+        height="800"
+      />
+    </div>
+    <div class="float-up mt-4 grid grid-cols-2 gap-3 text-sm">
+      <div class="border-t border-[color:var(--line)] pt-3">
+        <p class="font-black text-[color:var(--ink)]">{profile.location}</p>
+        <p class="mt-1 text-[color:var(--muted)]">Available for web projects</p>
+      </div>
+      <div class="border-t border-[color:var(--line)] pt-3">
+        <p class="font-black text-[color:var(--ink)]">AI Assisted</p>
+        <p class="mt-1 text-[color:var(--muted)]">Fast build, clean structure</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+export const profile = {
+  name: "Barkah Istigozah",
+  greeting: "Halo, saya Barkah.",
+  role: "Vibe Engineering / AI Assisted Developer",
+  location: "Indonesia",
+  image: "/images/me.webp",
+  summary:
+    "Saya membangun website, automation, dan produk digital dengan pendekatan AI-assisted yang cepat, rapi, dan mudah dirawat.",
+  skills: [
+    "Vibe Engineering",
+    "AI Assisted Development",
+    "Frontend",
+    "Backend",
+    "Automation",
+  ],
+  languages: [
+    "PHP",
+    "JavaScript",
+    "Go",
+    "TypeScript",
+    "Next.js",
+    "React",
+    "Astro",
+    "Laravel",
+    "WordPress",
+  ],
+  tools: ["Docker", "WSL", "GitHub", "Codex AI"],
+  email: "barkahistigozah79@gmail.com",
+  github: "https://github.com/barkahistigozah",
+  linkedin: "https://www.linkedin.com/in/barkahistigozah",
+};

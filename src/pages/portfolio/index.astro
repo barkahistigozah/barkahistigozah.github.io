@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectFilter from '../../components/ProjectFilter';
+import SectionHeading from '../../components/SectionHeading.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { siteBase } from '../../utils/urls';
+
+const projects = (await getCollection('projects')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const serializableProjects = projects.map((project) => ({
+  id: project.id,
+  title: project.data.title,
+  description: project.data.description,
+  thumbnail: project.data.thumbnail,
+  date: project.data.date.toISOString(),
+  role: project.data.role,
+  tags: project.data.tags,
+}));
+---
+
+<SiteLayout
+  title="Portfolio"
+  description="Daftar project Barkah Istigozah dalam web development, AI-assisted workflow, automation, dan produk digital."
+>
+  <section class="page-shell reveal py-14 md:py-20">
+    <SectionHeading
+      eyebrow="Portfolio"
+      title="Semua project dalam satu tempat."
+      description="Kumpulan project siap produksi yang dibangun dengan workflow modern, dan terdokumentasi."
+    />
+    <ProjectFilter client:idle projects={serializableProjects} baseUrl={siteBase} />
+  </section>
+</SiteLayout>

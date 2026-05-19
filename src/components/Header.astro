@@ -1,0 +1,42 @@
+---
+import { profile } from '../data/profile';
+import { withBase } from '../utils/urls';
+
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/portfolio/', label: 'Portfolio' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(248,244,236,0.76)] backdrop-blur">
+  <nav class="page-shell flex min-h-16 items-center justify-between gap-5 py-3" aria-label="Primary navigation">
+    <a href={withBase('/')} class="motion-link shrink-0 text-base font-black leading-none" aria-label={`${profile.name} home`}>
+      Barkah<span class="text-[color:var(--accent)]">.</span>
+    </a>
+    <div class="nav-pill flex items-center gap-1 overflow-x-auto rounded-full border border-[color:var(--line)] bg-[color:var(--panel)] p-1">
+      {navItems.map((item) => {
+        const itemHref = withBase(item.href);
+        const isActive = item.href === '/' ? currentPath === itemHref : currentPath.startsWith(itemHref);
+        return (
+          <a
+            href={itemHref}
+            aria-current={isActive ? 'page' : undefined}
+            class:list={[
+              'motion-link whitespace-nowrap rounded-full px-3 py-2 text-sm font-bold transition',
+              isActive
+                ? 'bg-[color:var(--ink)] text-panel'
+                : 'text-[color:var(--muted)] hover:text-[color:var(--ink)]',
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </div>
+  </nav>
+</header>

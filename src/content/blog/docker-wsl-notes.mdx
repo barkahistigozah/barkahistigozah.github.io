@@ -1,0 +1,21 @@
+---
+title: "Catatan Docker dan WSL untuk Development"
+excerpt: "Beberapa pola sederhana untuk menjaga environment lokal tetap konsisten saat berpindah project."
+date: "2026-03-18"
+tags: ["Docker", "WSL", "DevOps"]
+featured: true
+---
+
+Docker dan WSL membantu menjaga environment development tetap rapi, terutama saat project memakai stack yang berbeda-beda.
+
+## Kebiasaan yang Membantu
+
+Gunakan nama service yang jelas, simpan konfigurasi penting di repository, dan dokumentasikan command yang paling sering dipakai.
+
+## Checklist Ringkas
+
+- Pastikan port tidak bentrok.
+- Pisahkan environment variable dari source code.
+- Gunakan volume hanya ketika memang perlu.
+
+Catatan kecil seperti ini membuat onboarding project berikutnya jauh lebih ringan.

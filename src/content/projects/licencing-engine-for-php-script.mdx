@@ -1,0 +1,33 @@
+---
+title: "Licencing Engine for PHP Script"
+description: "aplikasi admin panel dan API verifikasi lisensi untuk mengamankan distribusi script PHP proprietary"
+thumbnail: "/images/leps.webp"
+date: "2026-05-19"
+role: "Fullstack Web Developer & Automation Developer"
+tags: ["Next.js", "Typescript", "Upstash Redis", "Bun", "Tailwind CSS", "Prisma ORM", "PostgreSQL", "Automation"]
+featured: true
+externalLink: "https://licensing-engine-for-php-script.vercel.app/"
+repositoryLink: "https://github.com/barkahistigozah/Licensing-Engine-for-PHP-Script"
+---
+
+## Ringkasan
+
+LEPS adalah aplikasi admin panel dan API verifikasi lisensi untuk mengamankan distribusi script PHP proprietary. Sistem ini membantu pemilik produk membatasi penggunaan script berdasarkan license key, domain, path instalasi, Telegram bot token, dan Telegram chat ID.
+
+## Peran
+
+Saya merancang kebutuhan, alur kerja, dan arah produk untuk sistem lisensi yang bisa dipakai oleh developer atau seller script PHP.
+
+## Problem
+
+Menjawab yang sering dialami oleh developer PHP: script mudah disebarkan ulang, dipakai di domain lain tanpa izin, atau dipakai setelah masa lisensi habis. LEPS dibuat agar pemilik script punya cara yang lebih rapi untuk mengatur siapa yang boleh memakai script, di domain mana script boleh berjalan, sampai kapan lisensinya aktif, dan kapan akses harus dihentikan.
+
+## Impact
+
+- Mereka bisa menjual script dengan sistem lisensi yang lebih profesional.
+Distribusi script jadi lebih terkontrol karena license dikunci ke domain, path, dan konfigurasi tertentu.
+- Seller bisa suspend lisensi kalau ada pelanggaran atau abuse.
+Masa aktif lisensi bisa dikelola tanpa harus edit manual di script client.
+- Audit log membantu seller melihat percobaan verifikasi, termasuk indikasi script dipakai di tempat yang tidak sesuai.
+- Developer kecil yang belum punya licensing engine sendiri bisa punya sistem proteksi yang lebih siap pakai.
+- Buyer juga mendapat pengalaman yang lebih jelas karena lisensi punya status, expired date, dan aturan penggunaan yang terstruktur.

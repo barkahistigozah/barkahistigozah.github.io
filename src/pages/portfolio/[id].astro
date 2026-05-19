@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { withBase } from '../../utils/urls';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<ContentLayout
+  title={project.data.title}
+  description={project.data.description}
+  date={project.data.date}
+  tags={project.data.tags}
+  eyebrow={project.data.role}
+  backHref="/portfolio/"
+  backLabel="Kembali ke portfolio"
+  image={project.data.thumbnail}
+>
+  <div class="portrait-card mb-8 overflow-hidden rounded-[8px] border border-[color:var(--line)] bg-[color:var(--panel)]">
+    <img src={withBase(project.data.thumbnail)} alt={`Thumbnail ${project.data.title}`} class="aspect-[16/9] w-full object-cover" loading="eager" width="1280" height="720" />
+  </div>
+  <Content />
+  {(project.data.externalLink || project.data.repositoryLink) && (
+    <div class="mt-10 flex flex-wrap gap-3">
+      {project.data.externalLink && (
+        <a href={project.data.externalLink} class="motion-button text-panel inline-flex items-center justify-center rounded-full bg-[color:var(--ink)] px-6 py-3 text-sm font-bold transition hover:bg-[color:var(--accent-strong)]">
+          Live / Demo
+        </a>
+      )}
+      {project.data.repositoryLink && (
+        <a href={project.data.repositoryLink} class="motion-button rounded-full border border-[color:var(--ink)] px-5 py-3 text-sm font-bold transition hover:bg-[color:var(--panel)]">
+          Repository
+        </a>
+      )}
+    </div>
+  )}
+</ContentLayout>

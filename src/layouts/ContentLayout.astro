@@ -1,0 +1,37 @@
+---
+import TagList from '../components/TagList.astro';
+import { withBase } from '../utils/urls';
+import SiteLayout from './SiteLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  eyebrow: string;
+  backHref: string;
+  backLabel: string;
+  image?: string;
+}
+
+const { title, description, date, tags, eyebrow, backHref, backLabel, image } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+---
+
+<SiteLayout title={title} description={description} type="article" image={image} publishedTime={date} tags={tags}>
+  <article class="page-shell reveal py-14 md:py-20">
+    <a href={withBase(backHref)} class="text-sm font-black text-[color:var(--accent-strong)] underline decoration-[0.1em] underline-offset-4">{backLabel}</a>
+    <header class="mt-8 max-w-4xl">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">{title}</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">{description}</p>
+      <div class="mt-7 flex flex-col gap-4 border-y border-[color:var(--line)] py-5 sm:flex-row sm:items-center sm:justify-between">
+        <time class="font-bold text-[color:var(--muted)]" datetime={date.toISOString()}>{formattedDate}</time>
+        <TagList tags={tags} />
+      </div>
+    </header>
+    <div class="content-body mt-10 max-w-3xl">
+      <slot />
+    </div>
+  </article>
+</SiteLayout>

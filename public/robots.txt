@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://barkahistigozah.site/sitemap-index.xml

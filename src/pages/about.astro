@@ -1,0 +1,39 @@
+---
+import ContactLinks from '../components/ContactLinks.astro';
+import TagList from '../components/TagList.astro';
+import { profile } from '../data/profile';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { withBase } from '../utils/urls';
+---
+
+<SiteLayout
+  title="About"
+  description="Profil singkat Barkah Istigozah, developer yang fokus pada AI-assisted development, web engineering, dan automation."
+>
+  <section class="page-shell reveal grid gap-10 py-14 md:grid-cols-[0.8fr_1.2fr] md:py-20">
+    <div class="reveal">
+      <p class="eyebrow">About</p>
+      <h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">{profile.name}</h1>
+      <div class="portrait-card mt-6 overflow-hidden rounded-[8px] border border-[color:var(--line)] bg-[color:var(--panel)]">
+        <img src={withBase(profile.image)} alt={`Portrait of ${profile.name}`} class="aspect-[4/5] w-full object-cover" width="640" height="800" />
+      </div>
+    </div>
+    <div class="content-body reveal max-w-3xl [animation-delay:140ms]">
+      <p>
+        Saya adalah developer yang sedang fokus membangun portfolio di bidang web development, automation, dan AI-assisted workflow.
+        Pendekatan saya sederhana: pahami masalahnya, buat struktur yang mudah dirawat, lalu iterasi cepat sampai hasilnya terasa berguna.
+      </p>
+      <h2>Fokus Keahlian</h2>
+      <p>
+        Fokus utama saya adalah Vibe Engineering dan AI Assisted Development, terutama untuk membuat website, prototipe produk, dan sistem kecil yang bisa
+        membantu pekerjaan sehari-hari.
+      </p>
+      <TagList tags={profile.skills} />
+      <h2>Bahasa dan Framework</h2>
+      <TagList tags={profile.languages} />
+      <h2>Tools</h2>
+      <TagList tags={profile.tools} />
+    </div>
+  </section>
+  <ContactLinks />
+</SiteLayout>

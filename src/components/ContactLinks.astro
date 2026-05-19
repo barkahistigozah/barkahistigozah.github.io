@@ -1,0 +1,28 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section id="contact" class="page-shell reveal mt-24">
+  <div class="grid gap-8 border-y border-[color:var(--line)] py-10 md:grid-cols-[0.85fr_1.15fr] md:items-center">
+    <div>
+      <p class="eyebrow">Contact</p>
+      <h2 class="mt-3 text-3xl font-black leading-tight md:text-5xl">Mari bikin sesuatu yang cepat, rapi, dan berguna.</h2>
+    </div>
+    <div>
+      <p class="text-base leading-8 text-[color:var(--muted)] md:text-lg">
+        Terbuka untuk project website, automation, landing page, dan eksperimen produk digital berbasis AI-assisted workflow.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a class="motion-button text-panel rounded-full bg-[color:var(--ink)] px-5 py-3 text-sm font-bold transition hover:bg-[color:var(--accent-strong)]" href={`mailto:${profile.email}`}>
+          Email
+        </a>
+        <a class="motion-button rounded-full border border-[color:var(--ink)] px-5 py-3 text-sm font-bold transition hover:bg-[color:var(--panel)]" href={profile.github}>
+          GitHub
+        </a>
+        <a class="motion-button rounded-full border border-[color:var(--ink)] px-5 py-3 text-sm font-bold transition hover:bg-[color:var(--panel)]" href={profile.linkedin}>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

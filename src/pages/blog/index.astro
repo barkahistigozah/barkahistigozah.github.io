@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleList from '../../components/ArticleList.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+const articles = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<SiteLayout
+  title="Blog"
+  description="Artikel teknis Barkah Istigozah tentang AI-assisted development, web workflow, Docker, WSL, dan engineering notes."
+>
+  <section class="page-shell reveal py-14 md:py-20">
+    <SectionHeading
+      eyebrow="Blog"
+      title="Catatan yang dibuat sambil membangun."
+      description="Artikel teknis dan dokumentasi project yang ditulis rapi untuk mendukung portfolio."
+    />
+    <ArticleList articles={articles} />
+  </section>
+</SiteLayout>

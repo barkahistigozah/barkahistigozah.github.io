@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleList from '../components/ArticleList.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import HeroIntro from '../components/HeroIntro.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const projects = (await getCollection('projects'))
+  .filter((project) => project.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
+
+const articles = (await getCollection('blog'))
+  .filter((article) => article.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
+---
+
+<SiteLayout
+  title="Barkah Istigozah | AI Assisted Developer"
+  description="Portfolio Barkah Istigozah, web developer yang fokus pada Vibe Engineering, AI-assisted workflow, web development, dan automation."
+>
+  <HeroIntro />
+
+  <section class="page-shell reveal mt-8">
+    <SectionHeading
+      eyebrow="Selected Portfolio Projects"
+      title="Project pilihan yang menunjukkan cara saya berpikir dan membangun."
+      description="Project Portfolio yang sudah saya buat."
+      href="/portfolio/"
+      linkLabel="Semua project"
+    />
+    <div>
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="page-shell reveal mt-20">
+    <SectionHeading
+      eyebrow="Selected Blog Articles"
+      title="Catatan teknis, workflow, dan pembelajaran."
+      description="Artikel untuk dokumentasi proses, eksperimen, dan cara kerja yang bisa dibaca."
+      href="/blog/"
+      linkLabel="Semua artikel"
+    />
+    <ArticleList articles={articles} />
+  </section>
+
+  <ContactLinks />
+</SiteLayout>

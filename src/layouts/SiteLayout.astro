@@ -99,9 +99,10 @@ const structuredData = {
     <Footer />
     <script>
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const smallScreen = window.matchMedia('(max-width: 767px)').matches;
       const revealItems = document.querySelectorAll('.reveal');
 
-      if (reduceMotion || !('IntersectionObserver' in window)) {
+      if (reduceMotion || smallScreen || !('IntersectionObserver' in window)) {
         revealItems.forEach((item) => item.classList.add('is-visible'));
       } else {
         const observer = new IntersectionObserver(

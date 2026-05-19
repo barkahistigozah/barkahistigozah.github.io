@@ -13,12 +13,17 @@ const navItems = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(248,244,236,0.76)] backdrop-blur">
-  <nav class="page-shell flex min-h-16 items-center justify-between gap-5 py-3" aria-label="Primary navigation">
+<header class="site-header sticky top-0 z-50 border-b border-[color:var(--line)] bg-[rgba(248,244,236,0.76)] backdrop-blur">
+  <nav class="page-shell relative flex min-h-16 items-center justify-between gap-5 py-3" aria-label="Primary navigation" data-mobile-nav>
     <a href={withBase('/')} class="motion-link shrink-0 text-base font-black leading-none" aria-label={`${profile.name} home`}>
       Barkah<span class="text-[color:var(--accent)]">.</span>
     </a>
-    <div class="nav-pill flex items-center gap-1 overflow-x-auto rounded-full border border-[color:var(--line)] bg-[color:var(--panel)] p-1">
+    <button class="mobile-menu-button" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-menu" data-mobile-menu-button>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <div id="mobile-menu" class="nav-pill mobile-menu flex items-center gap-1 overflow-x-auto rounded-full border border-[color:var(--line)] bg-[color:var(--panel)] p-1" data-mobile-menu>
       {navItems.map((item) => {
         const itemHref = withBase(item.href);
         const isActive = item.href === '/' ? currentPath === itemHref : currentPath.startsWith(itemHref);
@@ -39,4 +44,37 @@ const currentPath = Astro.url.pathname;
       })}
     </div>
   </nav>
+  <script>
+    const nav = document.querySelector('[data-mobile-nav]');
+    const button = document.querySelector('[data-mobile-menu-button]');
+    const menu = document.querySelector('[data-mobile-menu]');
+
+    if (nav && button && menu) {
+      const setOpen = (isOpen) => {
+        nav.toggleAttribute('data-menu-open', isOpen);
+        button.setAttribute('aria-expanded', String(isOpen));
+        button.setAttribute('aria-label', isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+      };
+
+      button.addEventListener('click', () => {
+        setOpen(!nav.hasAttribute('data-menu-open'));
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setOpen(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          setOpen(false);
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!nav.contains(event.target)) {
+          setOpen(false);
+        }
+      });
+    }
+  </script>
 </header>

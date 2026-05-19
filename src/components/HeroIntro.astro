@@ -16,7 +16,7 @@ import TagList from './TagList.astro';
     <p class="mt-5 max-w-2xl text-base leading-8 text-[color:var(--muted)] md:text-lg">
       {profile.summary}
     </p>
-    <div class="mt-8 flex flex-wrap gap-3">
+    <div class="hero-actions mt-8 flex flex-wrap gap-3">
       <a
         href={withBase('/portfolio/')}
         class="motion-button text-panel inline-flex items-center justify-center rounded-full bg-[color:var(--ink)] px-6 py-3 text-sm font-bold transition hover:bg-[color:var(--accent-strong)]"
@@ -30,7 +30,7 @@ import TagList from './TagList.astro';
         Hubungi Saya
       </a>
     </div>
-    <div class="mt-9">
+    <div class="hero-tags mt-9">
       <TagList tags={profile.languages.slice(0, 6)} />
     </div>
   </div>

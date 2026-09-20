@@ -1,16 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
 import ArticleList from '../components/ArticleList.astro';
+import ArchiveHero from '../components/ArchiveHero.astro';
 import ContactLinks from '../components/ContactLinks.astro';
-import HeroIntro from '../components/HeroIntro.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectFilter from '../components/ProjectFilter';
 import SectionHeading from '../components/SectionHeading.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import { makeArchiveId } from '../utils/archive';
+import { siteBase } from '../utils/urls';
 
-const projects = (await getCollection('projects'))
-  .filter((project) => project.data.featured)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
+const allProjects = (await getCollection('projects')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projects = allProjects.filter((project) => project.data.featured).slice(0, 4);
+const serializableProjects = projects.map((project, index) => ({
+  id: project.id,
+  archiveId: makeArchiveId(index),
+  title: project.data.title,
+  description: project.data.description,
+  date: project.data.date.toISOString(),
+  year: project.data.date.getFullYear(),
+  role: project.data.role,
+  tags: project.data.tags,
+}));
 
 const articles = (await getCollection('blog'))
   .filter((article) => article.data.featured)
@@ -22,25 +32,23 @@ const articles = (await getCollection('blog'))
   title="Barkah Istigozah | AI Assisted Developer"
   description="Portfolio Barkah Istigozah, web developer yang fokus pada Vibe Engineering, AI-assisted workflow, web development, dan automation."
 >
-  <HeroIntro />
+  <ArchiveHero projectCount={allProjects.length} noteCount={articles.length} />
 
-  <section class="page-shell reveal mt-8">
+  <section class="page-shell mt-8">
     <SectionHeading
       eyebrow="Selected Portfolio Projects"
-      title="Project pilihan yang menunjukkan cara saya berpikir dan membangun."
+      title="SELECTED / WORK"
       description="Project Portfolio yang sudah saya buat."
       href="/portfolio/"
       linkLabel="Semua project"
     />
-    <div>
-      {projects.map((project) => <ProjectCard project={project} />)}
-    </div>
+    <ProjectFilter client:idle projects={serializableProjects} baseUrl={siteBase} />
   </section>
 
-  <section class="page-shell reveal mt-20">
+  <section class="page-shell mt-20">
     <SectionHeading
       eyebrow="Selected Blog Articles"
-      title="Catatan teknis, workflow, dan pembelajaran."
+      title="FIELD / NOTES"
       description="Artikel untuk dokumentasi proses, eksperimen, dan cara kerja yang bisa dibaca."
       href="/blog/"
       linkLabel="Semua artikel"

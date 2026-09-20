@@ -28,6 +28,7 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const controllerRef = useRef<ArtifactController | null>(null);
+  const controllerPromiseRef = useRef<Promise<ArtifactController> | null>(null);
   const disposedRef = useRef(false);
   const visibleProjects = useMemo(() => sortProjects(filterProjects(projects, query), sortKey, direction), [projects, query, sortKey, direction]);
   const activeProject = projects.find((project) => project.id === activeId) ?? null;
@@ -50,11 +51,16 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
     const draw = async () => {
       try {
         if (!controllerRef.current) {
-          const { createProjectArtifact } = await import('./projectArtifact');
-          const controller = await createProjectArtifact(canvasRef.current!);
-          if (disposedRef.current) return controller.dispose();
-          controllerRef.current = controller;
+          controllerPromiseRef.current ??= import('./projectArtifact')
+            .then(({ createProjectArtifact }) => createProjectArtifact(canvasRef.current!))
+            .then((controller) => {
+              if (disposedRef.current) controller.dispose();
+              else controllerRef.current = controller;
+              return controller;
+            });
+          await controllerPromiseRef.current;
         }
+        if (disposedRef.current) return;
         controllerRef.current.draw(activeId, !reducedMotion);
         if (innerWidth >= 860 && dialogRef.current && !dialogRef.current.open) dialogRef.current.show();
       } catch {
@@ -97,36 +103,38 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
           <p className="border-t border-black px-3 py-4 text-xs uppercase sm:border-l sm:border-t-0" aria-live="polite">Showing {visibleProjects.length} / {projects.length}</p>
         </div>
 
-        <div className="archive-row border-b border-black bg-black text-white">
-          <div aria-sort={sortKey === 'id' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('id', 'ID')}</div>
-          <div aria-sort={sortKey === 'title' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('title', 'Title')}</div>
-          <div aria-sort={sortKey === 'year' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('year', 'Year')}</div>
-          <div className="archive-role" aria-sort={sortKey === 'role' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('role', 'Role')}</div>
-          <div className="archive-stack text-[10px] font-bold uppercase tracking-[.12em]">Stack</div>
-        </div>
+        <div role="table" aria-label="Project archive">
+          <div className="archive-row border-b border-black bg-black text-white" role="row">
+            <div role="columnheader" aria-sort={sortKey === 'id' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('id', 'ID')}</div>
+            <div role="columnheader" aria-sort={sortKey === 'title' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('title', 'Title')}</div>
+            <div role="columnheader" aria-sort={sortKey === 'year' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('year', 'Year')}</div>
+            <div className="archive-role" role="columnheader" aria-sort={sortKey === 'role' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('role', 'Role')}</div>
+            <div className="archive-stack text-[10px] font-bold uppercase tracking-[.12em]" role="columnheader">Stack</div>
+          </div>
 
-        {visibleProjects.map((project) => (
-          <article className="archive-row invert-hover border-b border-black" key={project.id} onPointerEnter={() => setActiveId(project.id)} onFocusCapture={() => setActiveId(project.id)}>
-            <span className="text-xs">{project.archiveId}</span>
-            <div>
+          {visibleProjects.map((project) => (
+          <article className="archive-row invert-hover border-b border-black" key={project.id} role="row" onPointerEnter={() => setActiveId(project.id)} onFocusCapture={() => setActiveId(project.id)}>
+            <span className="text-xs" role="cell">{project.archiveId}</span>
+            <div role="cell">
               <a className="font-[family-name:var(--font-display)] text-base font-bold tracking-[-.03em]" href={withBase(baseUrl, `/portfolio/${project.id}/`)}>{project.title}</a>
               <p className="mt-1 text-xs sm:hidden">{project.role}</p>
             </div>
-            <div className="flex flex-col gap-2 text-xs">
+            <div className="flex flex-col gap-2 text-xs" role="cell">
               <span>{project.year}</span>
               <button className="min-h-11 border border-current px-2 text-[10px] font-bold uppercase min-[860px]:hidden" type="button" onClick={() => preview(project.id)}>Preview</button>
             </div>
-            <span className="archive-role text-xs uppercase">{project.role}</span>
-            <span className="archive-stack text-xs uppercase">{project.tags.slice(0, 3).join(' · ')}</span>
+            <span className="archive-role text-xs uppercase" role="cell">{project.role}</span>
+            <span className="archive-stack text-xs uppercase" role="cell">{project.tags.slice(0, 3).join(' · ')}</span>
           </article>
-        ))}
+          ))}
 
-        {!visibleProjects.length && (
-          <div className="border-b border-black p-6">
-            <p className="display text-3xl">No matching work</p>
-            <button className="invert-hover mt-4 min-h-11 border border-black px-4 text-xs font-bold uppercase" type="button" onClick={() => setQuery('')}>Reset filter</button>
-          </div>
-        )}
+          {!visibleProjects.length && (
+            <div className="border-b border-black p-6">
+              <p className="display text-3xl">No matching work</p>
+              <button className="invert-hover mt-4 min-h-11 border border-black px-4 text-xs font-bold uppercase" type="button" onClick={() => setQuery('')}>Reset filter</button>
+            </div>
+          )}
+        </div>
       </div>
 
       <dialog className="archive-preview" ref={dialogRef} aria-label="Project preview">

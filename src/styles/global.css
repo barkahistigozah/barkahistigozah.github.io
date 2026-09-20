@@ -270,8 +270,52 @@ dialog::backdrop {
   width: 100%;
   max-height: calc(100dvh - 57px);
   margin: 0;
+  padding: 0;
   border: 0;
   border-left: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  overflow: auto;
+}
+
+@media (min-width: 860px) {
+  .archive-preview {
+    position: fixed;
+    inset: 57px 0 0 auto;
+    width: min(34vw, 480px);
+    max-height: none;
+    margin: 0;
+    border-left: 1px solid var(--line);
+  }
+}
+
+.archive-preview-media {
+  aspect-ratio: 16 / 10;
+}
+
+.archive-preview-media img {
+  filter: drop-shadow(6px 6px 0 var(--ink));
+}
+
+.back-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--paper);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 1.25rem;
+  line-height: 1;
+  transition: background-color var(--snap), color var(--snap);
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
   background: var(--paper);
   color: var(--ink);
 }

@@ -147,9 +147,9 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
             <span>Work preview</span>
             <button className="min-h-11 border border-black px-3 min-[860px]:hidden" type="button" onClick={() => dialogRef.current?.close()}>Close</button>
           </div>
-          <div className="relative aspect-square min-h-0 bg-white">
+          <div className="archive-preview-media relative min-h-0 bg-white p-4">
             {activeProject?.thumbnail ? (
-              <img className="h-full w-full object-contain" src={withBase(baseUrl, activeProject.thumbnail)} alt={`Preview ${activeProject.title}`} width="1280" height="800" />
+              <img className="h-full w-full border border-black object-contain" src={withBase(baseUrl, activeProject.thumbnail)} alt={`Preview ${activeProject.title}`} width="1280" height="800" />
             ) : (
               <canvas className="h-full w-full" ref={canvasRef} aria-hidden="true" />
             )}

@@ -12,11 +12,10 @@ interface Props {
 const { eyebrow, title, description, href, linkLabel } = Astro.props;
 ---
 
-<header class="grid gap-4 border-y border-black px-4 py-6 md:grid-cols-[180px_1fr_auto] md:items-end">
-  <p class="text-xs font-bold uppercase">{eyebrow}</p>
+<header class="grid justify-items-center gap-4 border-y border-black px-4 py-6 text-center md:grid-cols-[180px_1fr_auto] md:items-end">
+  <p class="text-xs font-bold uppercase md:justify-self-start md:text-left">{eyebrow}</p>
   <div>
     <h2 class="display text-[clamp(2.25rem,5vw,5.5rem)]">{title}</h2>
-    {description && <p class="mt-4 max-w-3xl text-base leading-7 text-[color:var(--muted)]">{description}</p>}
   </div>
   {href && linkLabel && (
     <a class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase" href={withBase(href)}>

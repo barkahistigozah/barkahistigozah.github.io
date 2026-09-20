@@ -14,8 +14,7 @@ const articles = (await getCollection('blog')).sort((a, b) => b.data.date.valueO
   <section class="page-shell py-10 md:py-16">
     <SectionHeading
       eyebrow="Blog"
-      title="FIELD / NOTES"
-      description="Artikel teknis dan dokumentasi project yang ditulis rapi untuk mendukung portfolio."
+      title="FIELD NOTES"
     />
     <ArticleList articles={articles} />
   </section>

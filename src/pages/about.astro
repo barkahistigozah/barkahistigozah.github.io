@@ -12,7 +12,7 @@ import { withBase } from '../utils/urls';
 >
   <section class="page-shell grid gap-8 py-10 md:grid-cols-[minmax(260px,.7fr)_1.3fr] md:py-16">
     <div class="px-4">
-      <p class="text-xs font-bold uppercase">About / Dossier</p>
+      <p class="text-xs font-bold uppercase">About Dossier</p>
       <h1 class="display mt-4 text-[clamp(3rem,7vw,7rem)]">{profile.name}</h1>
       <img src={withBase(profile.image)} alt={`Portrait of ${profile.name}`} class="mt-6 aspect-[4/5] w-full border border-black object-cover" width="640" height="800" />
     </div>
@@ -27,7 +27,7 @@ import { withBase } from '../utils/urls';
         membantu pekerjaan sehari-hari.
       </p>
       <TagList tags={profile.skills} /></section>
-      <section class="border-t border-black py-6"><h2 class="display text-3xl">Bahasa / Framework</h2><TagList tags={profile.languages} /></section>
+      <section class="border-t border-black py-6"><h2 class="display text-3xl">Bahasa Framework</h2><TagList tags={profile.languages} /></section>
       <section class="border-y border-black py-6"><h2 class="display text-3xl">Tools</h2><TagList tags={profile.tools} /></section>
     </div>
   </section>

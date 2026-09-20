@@ -62,13 +62,17 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
         }
         if (disposedRef.current) return;
         controllerRef.current.draw(activeId, !reducedMotion);
-        if (innerWidth >= 860 && dialogRef.current && !dialogRef.current.open) dialogRef.current.show();
       } catch {
         setPreviewError(true);
       }
     };
     void draw();
   }, [activeId, previewError, reducedMotion]);
+
+  useEffect(() => {
+    if (!activeId || innerWidth < 860 || !dialogRef.current || dialogRef.current.open) return;
+    dialogRef.current.show();
+  }, [activeId]);
 
   const toggleSort = (key: SortKey) => {
     if (key === sortKey) setDirection((value) => value === 'asc' ? 'desc' : 'asc');
@@ -87,8 +91,8 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
   };
 
   const sortButton = (key: SortKey, label: string) => (
-    <button className="min-h-11 w-full text-left text-[10px] font-bold uppercase tracking-[.12em]" type="button" onClick={() => toggleSort(key)}>
-      {label} {sortKey === key ? direction === 'asc' ? '↑' : '↓' : '·'}
+    <button className="min-h-11 w-full text-center text-[10px] font-bold uppercase tracking-[.12em]" type="button" onClick={() => toggleSort(key)}>
+      {label}{sortKey === key ? ` ${direction === 'asc' ? '↑' : '↓'}` : ''}
     </button>
   );
 
@@ -104,12 +108,12 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
         </div>
 
         <div role="table" aria-label="Project archive">
-          <div className="archive-row border-b border-black bg-black text-white" role="row">
+          <div className="archive-row archive-header border-b border-black bg-black text-white" role="row">
             <div role="columnheader" aria-sort={sortKey === 'id' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('id', 'ID')}</div>
             <div role="columnheader" aria-sort={sortKey === 'title' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('title', 'Title')}</div>
             <div role="columnheader" aria-sort={sortKey === 'year' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('year', 'Year')}</div>
             <div className="archive-role" role="columnheader" aria-sort={sortKey === 'role' ? direction === 'asc' ? 'ascending' : 'descending' : 'none'}>{sortButton('role', 'Role')}</div>
-            <div className="archive-stack text-[10px] font-bold uppercase tracking-[.12em]" role="columnheader">Stack</div>
+            <div className="archive-stack font-bold uppercase tracking-[.12em]" role="columnheader">Stack</div>
           </div>
 
           {visibleProjects.map((project) => (
@@ -138,13 +142,17 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
       </div>
 
       <dialog className="archive-preview" ref={dialogRef} aria-label="Project preview">
-        <div className="grid h-full grid-rows-[auto_1fr_auto]">
+        <section className="archive-preview-section grid h-full grid-rows-[auto_1fr_auto]" aria-label="Work preview">
           <div className="flex items-center justify-between border-b border-black p-3 text-xs font-bold uppercase">
-            <span>Artifact / Preview</span>
+            <span>Work preview</span>
             <button className="min-h-11 border border-black px-3 min-[860px]:hidden" type="button" onClick={() => dialogRef.current?.close()}>Close</button>
           </div>
           <div className="relative aspect-square min-h-0 bg-white">
-            <canvas className="h-full w-full" ref={canvasRef} aria-hidden="true" />
+            {activeProject?.thumbnail ? (
+              <img className="h-full w-full object-contain" src={withBase(baseUrl, activeProject.thumbnail)} alt={`Preview ${activeProject.title}`} width="1280" height="800" />
+            ) : (
+              <canvas className="h-full w-full" ref={canvasRef} aria-hidden="true" />
+            )}
             {!activeProject && <p className="absolute inset-0 grid place-items-center text-xs font-bold uppercase">No selection</p>}
             {previewError && <p className="absolute inset-0 grid place-items-center bg-white p-4 text-center text-xs font-bold uppercase">Preview visual unavailable</p>}
           </div>
@@ -153,10 +161,10 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
               <p className="display text-2xl">{activeProject.title}</p>
               <p className="mt-2 text-xs uppercase">{activeProject.archiveId} · {activeProject.year} · {activeProject.role}</p>
               <p className="mt-3 text-sm leading-6">{activeProject.description}</p>
-              <a className="mt-4 inline-flex min-h-11 items-center border border-black px-3 text-xs font-bold uppercase invert-hover" href={withBase(baseUrl, `/portfolio/${activeProject.id}/`)}>Open case study →</a>
+              <a className="invert-hover mt-4 inline-flex min-h-11 items-center border border-black px-3 text-xs font-bold uppercase" href={withBase(baseUrl, `/portfolio/${activeProject.id}/`)}>Open case study →</a>
             </div>
           )}
-        </div>
+        </section>
       </dialog>
     </div>
   );

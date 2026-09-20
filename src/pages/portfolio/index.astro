@@ -12,6 +12,7 @@ const serializableProjects = projects.map((project, index) => ({
   archiveId: makeArchiveId(index),
   title: project.data.title,
   description: project.data.description,
+  thumbnail: project.data.thumbnail,
   date: project.data.date.toISOString(),
   year: project.data.date.getFullYear(),
   role: project.data.role,
@@ -26,8 +27,7 @@ const serializableProjects = projects.map((project, index) => ({
   <section class="page-shell py-10 md:py-16">
     <SectionHeading
       eyebrow="Portfolio"
-      title="WORK / INDEX"
-      description="Kumpulan project siap produksi yang dibangun dengan workflow modern, dan terdokumentasi."
+      title="WORK"
     />
     <ProjectFilter client:idle projects={serializableProjects} baseUrl={siteBase} />
   </section>

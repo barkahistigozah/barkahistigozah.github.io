@@ -11,11 +11,11 @@ const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { day: '2-di
 ---
 
 <div class="border-b border-black">
-  <div class="grid grid-cols-[76px_minmax(0,1fr)_auto] border-t border-black text-[10px] font-bold uppercase tracking-[.12em] sm:grid-cols-[96px_minmax(0,1fr)_auto]" aria-hidden="true">
+  <div class="article-list-grid grid border-t border-black text-[10px] font-bold uppercase tracking-[.12em]" aria-hidden="true">
     <span class="p-3">Date</span><span class="border-l border-black p-3">Title</span><span class="border-l border-black p-3">Open</span>
   </div>
   {articles.map((article) => (
-    <article class="invert-hover grid grid-cols-[76px_minmax(0,1fr)_auto] border-t border-black sm:grid-cols-[96px_minmax(0,1fr)_auto]">
+    <article class="article-list-grid invert-hover grid border-t border-black">
       <time class="p-3 text-xs" datetime={article.data.date.toISOString()}>
         {formatDate(article.data.date)}
       </time>

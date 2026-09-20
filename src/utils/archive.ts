@@ -3,6 +3,7 @@ export type ArchiveProject = {
   archiveId: string;
   title: string;
   description: string;
+  thumbnail?: string;
   date: string;
   year: number;
   role: string;

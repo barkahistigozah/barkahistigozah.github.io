@@ -285,19 +285,20 @@ dialog::backdrop {
 }
 
 @media (min-width: 768px) {
-  .site-nav > summary {
+  .site-nav {
     display: none;
   }
 
-  .site-nav,
-  .nav-links {
+  .desktop-nav {
     display: flex;
+    flex: none;
+    width: max-content;
   }
 }
 
 @media (max-width: 719px) {
   .archive-row {
-    grid-template-columns: 74px minmax(0, 1fr) 64px;
+    grid-template-columns: 70px minmax(0, 1fr) 88px;
   }
 
   .archive-role,

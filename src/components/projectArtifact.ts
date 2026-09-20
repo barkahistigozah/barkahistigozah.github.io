@@ -1,4 +1,6 @@
 import { hashId } from '../utils/archive';
+import { Color, Group, Mesh, MeshBasicMaterial, OrthographicCamera, PlaneGeometry, RingGeometry, Scene, WebGLRenderer } from 'three';
+import { gsap } from 'gsap';
 
 export type ArtifactController = {
   draw: (id: string, animate: boolean) => void;
@@ -6,13 +8,12 @@ export type ArtifactController = {
 };
 
 export const createProjectArtifact = async (canvas: HTMLCanvasElement): Promise<ArtifactController> => {
-  const [THREE, { gsap }] = await Promise.all([import('three'), import('gsap')]);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'low-power' });
-  const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-  const group = new THREE.Group();
+  const renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: 'low-power' });
+  const scene = new Scene();
+  const camera = new OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+  const group = new Group();
   camera.position.z = 2;
-  scene.background = new THREE.Color(0xffffff);
+  scene.background = new Color(0xffffff);
   scene.add(group);
 
   let tween: ReturnType<typeof gsap.to> | undefined;
@@ -37,7 +38,7 @@ export const createProjectArtifact = async (canvas: HTMLCanvasElement): Promise<
 
   const clear = () => {
     for (const child of [...group.children]) {
-      if (child instanceof THREE.Mesh) {
+      if (child instanceof Mesh) {
         child.geometry.dispose();
         const materials = Array.isArray(child.material) ? child.material : [child.material];
         materials.forEach((material) => material.dispose());
@@ -60,9 +61,9 @@ export const createProjectArtifact = async (canvas: HTMLCanvasElement): Promise<
     for (let index = 0; index < count; index += 1) {
       const radius = 0.12 + random() * 0.18;
       const geometry = index % 2
-        ? new THREE.RingGeometry(radius, radius + 0.08 + random() * 0.2, 4 + Math.floor(random() * 5))
-        : new THREE.PlaneGeometry(0.25 + random() * 0.65, 0.08 + random() * 0.5);
-      const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color: index % 3 ? 0x000000 : 0xe6e6e6 }));
+        ? new RingGeometry(radius, radius + 0.08 + random() * 0.2, 4 + Math.floor(random() * 5))
+        : new PlaneGeometry(0.25 + random() * 0.65, 0.08 + random() * 0.5);
+      const mesh = new Mesh(geometry, new MeshBasicMaterial({ color: index % 3 ? 0x000000 : 0xe6e6e6 }));
       mesh.position.set((random() - 0.5) * 1.35, (random() - 0.5) * 1.35, index * 0.01);
       mesh.rotation.z = random() * Math.PI;
       group.add(mesh);

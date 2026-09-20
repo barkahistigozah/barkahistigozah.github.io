@@ -43,5 +43,23 @@ const currentPath = Astro.url.pathname;
         })}
       </div>
     </details>
+    <div class="desktop-nav hidden">
+      {navItems.map((item) => {
+        const itemHref = withBase(item.href);
+        const isActive = item.href === '/' ? currentPath === itemHref : currentPath.startsWith(itemHref);
+        return (
+          <a
+            href={itemHref}
+            aria-current={isActive ? 'page' : undefined}
+            class:list={[
+              'invert-hover flex min-h-14 items-center border-l border-black px-4 text-xs font-bold uppercase',
+              isActive && 'bg-black text-white',
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </div>
   </nav>
 </header>

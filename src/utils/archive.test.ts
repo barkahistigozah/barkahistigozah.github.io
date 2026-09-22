@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { filterProjects, hashId, makeArchiveId, sortProjects, type ArchiveProject } from './archive';
+import { filterProjects, getInitialProjectId, hashId, makeArchiveId, paginateProjects, sortProjects, type ArchiveProject } from './archive';
 
 const projects: ArchiveProject[] = [
   {
@@ -28,6 +28,17 @@ describe('archive utilities', () => {
   test('builds stable display IDs', () => {
     expect(makeArchiveId(0)).toBe('P-0001');
     expect(makeArchiveId(11, 'N')).toBe('N-0012');
+  });
+
+  test('uses the first project as the default preview', () => {
+    expect(getInitialProjectId(projects)).toBe('portfolio-pribadi');
+    expect(getInitialProjectId([])).toBeNull();
+  });
+
+  test('paginates archive rows without changing the source order', () => {
+    expect(paginateProjects(projects, 1, 1).map((item) => item.id)).toEqual(['portfolio-pribadi']);
+    expect(paginateProjects(projects, 2, 1).map((item) => item.id)).toEqual(['berkah-coding']);
+    expect(paginateProjects(projects, 3, 1)).toEqual([]);
   });
 
   test('returns all rows for a blank query and matches every searchable field', () => {

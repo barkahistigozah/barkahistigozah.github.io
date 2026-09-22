@@ -1,0 +1,70 @@
+---
+title: "Kelebihan Concurrency di Golang untuk Aplikasi Modern"
+excerpt: "Mengapa goroutine, channel, dan dukungan concurrency bawaan Go memudahkan pengembangan service yang responsif dan efisien."
+date: "2026-02-12"
+tags: ["Go", "Concurrency", "Backend"]
+featured: false
+---
+
+Concurrency adalah salah satu alasan Go banyak dipilih untuk membangun API, worker, sistem antrean, dan service yang menangani banyak pekerjaan sekaligus. Go tidak menghilangkan kerumitan concurrency, tetapi menyediakan fondasi yang sederhana sehingga developer tidak perlu memulai dari pengelolaan thread tingkat rendah.
+
+## Goroutine Ringan dan Mudah Digunakan
+
+Goroutine adalah fungsi yang berjalan secara concurrent. Cara menjalankannya cukup dengan menambahkan kata kunci `go`.
+
+```go
+go processOrder(order)
+```
+
+Dibanding membuat dan mengatur thread sistem secara langsung, goroutine membutuhkan kode yang jauh lebih sedikit. Runtime Go akan menjadwalkan banyak goroutine ke sejumlah thread yang tersedia. Karena itu, aplikasi dapat menangani banyak koneksi atau pekerjaan tanpa membuat arsitektur concurrency sendiri dari nol.
+
+Goroutine tetap bukan resource tanpa batas. Jumlahnya perlu dikendalikan, terutama ketika setiap pekerjaan memakai koneksi database, file, atau layanan eksternal. Worker pool dan pembatas concurrency tetap penting agar beban tidak berpindah menjadi masalah baru.
+
+## Channel Membantu Koordinasi
+
+Channel menyediakan jalur komunikasi antargoroutine. Daripada beberapa proses mengubah data bersama secara bebas, hasil kerja dapat dikirim melalui channel.
+
+```go
+results := make(chan Result)
+
+go func() {
+    results <- fetchData()
+}()
+
+result := <-results
+```
+
+Pola ini membuat aliran data lebih mudah dibaca. Channel juga berguna untuk membangun pipeline, membagikan pekerjaan kepada worker, atau mengumpulkan hasil dari beberapa proses. Meski demikian, channel bukan jawaban untuk semua keadaan. Untuk state sederhana yang benar-benar digunakan bersama, `sync.Mutex` kadang lebih langsung dan lebih mudah dipahami.
+
+## Cocok untuk Operasi I/O
+
+Banyak aplikasi backend lebih sering menunggu daripada menghitung: menunggu database, API pihak ketiga, file, atau jaringan. Concurrency membuat waktu tunggu tersebut dapat dimanfaatkan untuk mengerjakan permintaan lain.
+
+Contohnya, sebuah endpoint perlu mengambil profil, daftar transaksi, dan status langganan dari tiga sumber berbeda. Jika ketiganya tidak saling bergantung, proses dapat dijalankan secara concurrent lalu hasilnya digabungkan. Waktu respons mendekati operasi yang paling lambat, bukan jumlah seluruh waktu tunggu.
+
+## Pembatalan dengan Context
+
+Package `context` membantu meneruskan batas waktu dan sinyal pembatalan. Ketika pengguna membatalkan request atau waktu proses habis, pekerjaan turunannya dapat ikut dihentikan.
+
+```go
+ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+defer cancel()
+```
+
+Tanpa pembatalan, goroutine dapat tetap berjalan meskipun hasilnya sudah tidak diperlukan. Dalam aplikasi yang sibuk, kebocoran kecil seperti ini bisa menumpuk dan menghabiskan resource.
+
+## Dukungan Tooling yang Kuat
+
+Go menyediakan race detector untuk membantu menemukan akses data bersama yang tidak aman.
+
+```bash
+go test -race ./...
+```
+
+Tool ini tidak membuktikan program bebas dari seluruh race condition, tetapi sangat berguna ketika dijalankan bersama test yang mencakup alur concurrent. Standard library juga menyediakan `sync`, atomic operation, timer, dan primitive lain yang cukup untuk banyak kebutuhan produksi.
+
+## Concurrency Bukan Parallelism
+
+Concurrency mengatur beberapa pekerjaan agar dapat berlangsung secara tumpang tindih. Parallelism berarti beberapa pekerjaan benar-benar dieksekusi pada saat yang sama. Go mendukung keduanya, tetapi peningkatan performa tetap bergantung pada jenis pekerjaan, jumlah core, dan bottleneck yang sebenarnya.
+
+Kelebihan utama Go bukan sekadar mampu menjalankan banyak proses. Nilainya terletak pada model concurrency yang dekat dengan bahasa, standard library, dan runtime. Dengan desain yang terukur, pembatalan yang jelas, serta pengujian race, developer bisa membangun service concurrent tanpa membawa kompleksitas yang tidak diperlukan.

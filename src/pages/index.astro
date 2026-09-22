@@ -10,7 +10,7 @@ import { makeArchiveId } from '../utils/archive';
 import { siteBase } from '../utils/urls';
 
 const allProjects = (await getCollection('projects')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const projects = allProjects.filter((project) => project.data.featured).slice(0, 4);
+const projects = allProjects.filter((project) => project.data.featured).slice(0, 5);
 const serializableProjects = projects.map((project, index) => ({
   id: project.id,
   archiveId: makeArchiveId(index),
@@ -24,14 +24,13 @@ const serializableProjects = projects.map((project, index) => ({
 }));
 
 const articles = (await getCollection('blog'))
-  .filter((article) => article.data.featured)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 6);
+  .slice(0, 5);
 ---
 
 <SiteLayout
-  title="Barkah Istigozah | AI Assisted Developer"
-  description="Portfolio Barkah Istigozah, web developer yang fokus pada Vibe Engineering, AI-assisted workflow, web development, dan automation."
+  title="Barkah Istigozah | Junior Full-Stack Web Developer"
+  description="Portfolio Barkah Istigozah, junior full-stack web developer dengan 4+ tahun pengalaman freelance dan workflow AI-assisted engineering."
 >
   <ArchiveHero projectCount={allProjects.length} noteCount={articles.length} />
 

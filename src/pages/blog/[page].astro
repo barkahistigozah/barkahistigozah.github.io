@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleList from '../../components/ArticleList.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { getPageCount, paginate } from '../../utils/pagination';
+
+export async function getStaticPaths() {
+  const pageSize = 10;
+  const allArticles = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const totalPages = getPageCount(allArticles.length, pageSize);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const currentPage = index + 2;
+    return {
+      params: { page: String(currentPage) },
+      props: {
+        articles: paginate(allArticles, currentPage, pageSize),
+        currentPage,
+        totalPages,
+      },
+    };
+  });
+}
+
+const { articles, currentPage, totalPages } = Astro.props;
+---
+
+<SiteLayout
+  title={`Blog Page ${currentPage}`}
+  description="Artikel teknis Barkah Istigozah tentang AI-assisted development, web workflow, Docker, WSL, dan engineering notes."
+>
+  <section class="page-shell py-10 md:py-16">
+    <SectionHeading eyebrow="Blog" title="FIELD NOTES" />
+    <ArticleList articles={articles} currentPage={currentPage} totalPages={totalPages} />
+  </section>
+</SiteLayout>

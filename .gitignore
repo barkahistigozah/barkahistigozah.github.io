@@ -1,9 +1,10 @@
 node_modules
 dist
+docs
+.superpowers
 .astro
 .env
 .env.local
 .codex-dev*.log
 .codex-*.log
 prd.md
-promp.txt

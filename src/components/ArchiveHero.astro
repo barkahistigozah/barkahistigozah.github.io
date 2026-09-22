@@ -9,7 +9,7 @@ interface Props {
 const { projectCount, noteCount } = Astro.props;
 ---
 
-<section class="page-shell border-b border-black" data-archive-hero>
+<section class="archive-hero-enter page-shell border-b border-black" data-archive-hero>
   <div class="grid md:grid-cols-[1fr_260px]">
     <h1 class="display min-w-0 px-4 py-6 text-[clamp(3rem,9vw,10rem)]">BARKAH PORTFOLIO</h1>
     <div class="border-t border-black p-4 text-xs uppercase md:border-l md:border-t-0">
@@ -23,7 +23,7 @@ const { projectCount, noteCount } = Astro.props;
       <p class="text-xs font-bold uppercase">{profile.role} · {profile.location}</p>
       <p class="mt-3 max-w-3xl text-base leading-7">{profile.summary}</p>
     </div>
-    <a class="mt-4 underline underline-offset-4 md:mt-0" href={`mailto:${profile.email}`}>Start a project →</a>
+    <a class="invert-hover mt-4 inline-flex min-h-11 items-center border border-black bg-black px-4 py-3 text-panel text-xs font-bold uppercase md:mt-0" target="_blank" href={profile.instagram}>Start a project →</a>
   </div>
 </section>
 
@@ -54,10 +54,4 @@ const { projectCount, noteCount } = Astro.props;
   syncClock();
   document.addEventListener('visibilitychange', syncClock);
   document.addEventListener('astro:before-swap', cleanup, { once: true });
-
-  requestAnimationFrame(async () => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const { gsap } = await import('gsap');
-    gsap.from('[data-archive-hero] > *', { opacity: 0, y: 12, duration: 0.3, stagger: 0.04, ease: 'power1.out', clearProps: 'all' });
-  });
 </script>

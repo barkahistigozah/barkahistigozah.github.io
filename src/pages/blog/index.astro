@@ -3,8 +3,12 @@ import { getCollection } from 'astro:content';
 import ArticleList from '../../components/ArticleList.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import { getPageCount, paginate } from '../../utils/pagination';
 
-const articles = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const PAGE_SIZE = 10;
+const allArticles = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const articles = paginate(allArticles, 1, PAGE_SIZE);
+const totalPages = getPageCount(allArticles.length, PAGE_SIZE);
 ---
 
 <SiteLayout
@@ -16,6 +20,6 @@ const articles = (await getCollection('blog')).sort((a, b) => b.data.date.valueO
       eyebrow="Blog"
       title="FIELD NOTES"
     />
-    <ArticleList articles={articles} />
+    <ArticleList articles={articles} currentPage={1} totalPages={totalPages} />
   </section>
 </SiteLayout>

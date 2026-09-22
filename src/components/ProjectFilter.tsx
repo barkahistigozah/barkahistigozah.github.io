@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { filterProjects, sortProjects, type ArchiveProject, type SortDirection, type SortKey } from '../utils/archive';
+import { filterProjects, getInitialProjectId, paginateProjects, sortProjects, type ArchiveProject, type SortDirection, type SortKey } from '../utils/archive';
 import type { ArtifactController } from './projectArtifact';
 
 type Props = {
   projects: ArchiveProject[];
   baseUrl: string;
 };
+
+const PAGE_SIZE = 5;
 
 const withBase = (baseUrl: string, path: string) => {
   if (/^(?:[a-z]+:)?\/\//i.test(path) || path.startsWith('mailto:') || path.startsWith('tel:')) {
@@ -22,7 +24,8 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
   const [query, setQuery] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('year');
   const [direction, setDirection] = useState<SortDirection>('desc');
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [activeId, setActiveId] = useState<string | null>(() => getInitialProjectId(projects));
   const [previewError, setPreviewError] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -31,6 +34,11 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
   const controllerPromiseRef = useRef<Promise<ArtifactController> | null>(null);
   const disposedRef = useRef(false);
   const visibleProjects = useMemo(() => sortProjects(filterProjects(projects, query), sortKey, direction), [projects, query, sortKey, direction]);
+  const totalPages = Math.max(1, Math.ceil(visibleProjects.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageProjects = paginateProjects(visibleProjects, currentPage, PAGE_SIZE);
+  const pageStart = visibleProjects.length ? (currentPage - 1) * PAGE_SIZE + 1 : 0;
+  const pageEnd = Math.min(currentPage * PAGE_SIZE, visibleProjects.length);
   const activeProject = projects.find((project) => project.id === activeId) ?? null;
 
   useEffect(() => {
@@ -70,9 +78,11 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
   }, [activeId, previewError, reducedMotion]);
 
   useEffect(() => {
-    if (!activeId || innerWidth < 860 || !dialogRef.current || dialogRef.current.open) return;
+    if (!activeId || window.innerWidth < 860 || !dialogRef.current || dialogRef.current.open) return;
     dialogRef.current.show();
   }, [activeId]);
+
+  useEffect(() => setPage(1), [query, sortKey, direction]);
 
   const toggleSort = (key: SortKey) => {
     if (key === sortKey) setDirection((value) => value === 'asc' ? 'desc' : 'asc');
@@ -90,6 +100,15 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
     dialog.showModal();
   };
 
+  const selectProject = (id: string) => {
+    setActiveId(id);
+    if (window.innerWidth < 860) {
+      preview(id);
+      return;
+    }
+    requestAnimationFrame(() => dialogRef.current?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'nearest' }));
+  };
+
   const sortButton = (key: SortKey, label: string) => (
     <button className="min-h-11 w-full text-center text-[10px] font-bold uppercase tracking-[.12em]" type="button" onClick={() => toggleSort(key)}>
       {label}{sortKey === key ? ` ${direction === 'asc' ? '↑' : '↓'}` : ''}
@@ -104,7 +123,7 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
             Filter
             <input className="min-h-11 border-l border-black px-3 font-normal normal-case outline-none" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Title, role, year, id..." type="search" />
           </label>
-          <p className="border-t border-black px-3 py-4 text-xs uppercase sm:border-l sm:border-t-0" aria-live="polite">Showing {visibleProjects.length} / {projects.length}</p>
+          <p className="border-t border-black px-3 py-4 text-xs uppercase sm:border-l sm:border-t-0" aria-live="polite">Showing {pageStart}-{pageEnd} / {visibleProjects.length}</p>
         </div>
 
         <div role="table" aria-label="Project archive">
@@ -116,8 +135,26 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
             <div className="archive-stack font-bold uppercase tracking-[.12em]" role="columnheader">Stack</div>
           </div>
 
-          {visibleProjects.map((project) => (
-          <article className="archive-row invert-hover border-b border-black" key={project.id} role="row" onPointerEnter={() => setActiveId(project.id)} onFocusCapture={() => setActiveId(project.id)}>
+          {pageProjects.map((project) => (
+          <article
+            className="archive-row invert-hover border-b border-black"
+            key={project.id}
+            role="row"
+            tabIndex={0}
+            aria-label={`Preview ${project.title}`}
+            onPointerEnter={() => setActiveId(project.id)}
+            onFocusCapture={() => setActiveId(project.id)}
+            onClick={(event) => {
+              if (event.target instanceof Element && event.target.closest('a,button')) return;
+              selectProject(project.id);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectProject(project.id);
+              }
+            }}
+          >
             <span className="text-xs" role="cell">{project.archiveId}</span>
             <div role="cell">
               <a className="font-[family-name:var(--font-display)] text-base font-bold tracking-[-.03em]" href={withBase(baseUrl, `/portfolio/${project.id}/`)}>{project.title}</a>
@@ -139,13 +176,21 @@ export default function ProjectFilter({ projects, baseUrl }: Props) {
             </div>
           )}
         </div>
+
+        {totalPages > 1 && (
+          <nav className="flex flex-wrap items-center justify-between gap-3 border-b border-black px-3 py-3 text-xs font-bold uppercase" aria-label="Project pagination">
+            <button className="min-h-11 border border-black px-3 disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled={currentPage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Previous</button>
+            <span>Page {currentPage} / {totalPages}</span>
+            <button className="min-h-11 border border-black px-3 disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled={currentPage === totalPages} onClick={() => setPage((value) => Math.min(totalPages, value + 1))}>Next</button>
+          </nav>
+        )}
       </div>
 
       <dialog className="archive-preview" ref={dialogRef} aria-label="Project preview">
-        <section className="archive-preview-section grid h-full grid-rows-[auto_1fr_auto]" aria-label="Work preview">
+        <section className="archive-preview-section grid" aria-label="Work preview">
           <div className="flex items-center justify-between border-b border-black p-3 text-xs font-bold uppercase">
             <span>Work preview</span>
-            <button className="min-h-11 border border-black px-3 min-[860px]:hidden" type="button" onClick={() => dialogRef.current?.close()}>Close</button>
+            <button className="preview-close min-h-11 px-3 min-[860px]:hidden" type="button" onClick={() => dialogRef.current?.close()}>Close</button>
           </div>
           <div className="archive-preview-media relative min-h-0 bg-white p-4">
             {activeProject?.thumbnail ? (

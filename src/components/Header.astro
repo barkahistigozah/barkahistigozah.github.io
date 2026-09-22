@@ -23,7 +23,9 @@ const currentPath = Astro.url.pathname;
       BARKAH
     </a>
     <details class="site-nav">
-      <summary class="flex min-h-14 items-center px-4 text-xs font-bold uppercase md:hidden">Menu</summary>
+      <summary class="invert-hover flex min-h-14 items-center gap-2 px-4 text-xs font-bold uppercase md:hidden" aria-label="Buka menu navigasi">
+        <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      </summary>
       <div class="nav-links bg-white">
         {navItems.map((item) => {
           const itemHref = withBase(item.href);

@@ -4,10 +4,13 @@ import { withBase } from '../utils/urls';
 
 interface Props {
   articles: CollectionEntry<'blog'>[];
+  currentPage?: number;
+  totalPages?: number;
 }
 
-const { articles } = Astro.props;
+const { articles, currentPage = 1, totalPages = 1 } = Astro.props;
 const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }).format(date);
+const pageHref = (page: number) => page === 1 ? '/blog/' : `/blog/${page}/`;
 ---
 
 <div class="border-b border-black">
@@ -28,4 +31,11 @@ const formatDate = (date: Date) => new Intl.DateTimeFormat('id-ID', { day: '2-di
       <a class="flex min-h-11 items-center border-l border-black p-3 text-xs font-bold uppercase" href={withBase(`/blog/${article.id}/`)}>Read →</a>
     </article>
   ))}
+  {totalPages > 1 && (
+    <nav class="flex flex-wrap items-center justify-between gap-3 border-t border-black px-3 py-3 text-xs font-bold uppercase" aria-label="Blog pagination">
+      {currentPage > 1 ? <a class="invert-hover inline-flex min-h-11 items-center border border-black px-3" href={withBase(pageHref(currentPage - 1))}>Previous</a> : <span />}
+      <span>Page {currentPage} / {totalPages}</span>
+      {currentPage < totalPages ? <a class="invert-hover inline-flex min-h-11 items-center border border-black px-3" href={withBase(pageHref(currentPage + 1))}>Next</a> : <span />}
+    </nav>
+  )}
 </div>

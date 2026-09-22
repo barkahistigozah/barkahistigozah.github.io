@@ -13,26 +13,32 @@ import SiteLayout from '../layouts/SiteLayout.astro';
       <p class="text-xs font-bold uppercase">Contact</p>
       <h1 class="display mt-4 text-[clamp(3rem,8vw,8rem)]">CONTACT INQUIRY</h1>
       <p class="mt-5 text-lg leading-8 text-[color:var(--muted)]">
-        Kirim detail singkat lewat email atau hubungi saya melalui GitHub dan LinkedIn.
+        Kirim detail singkat lewat email atau hubungi saya melalui GitHub, LinkedIn, dan Instagram.
       </p>
     </div>
-    <form class="grid max-w-4xl border-b border-black px-4" action={`mailto:${profile.email}`} method="post" enctype="text/plain">
-      <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
-        Nama
-        <input class="min-h-11 border border-black bg-white px-3 text-base font-normal" name="name" type="text" autocomplete="name" required />
-      </label>
-      <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
-        Email
-        <input class="min-h-11 border border-black bg-white px-3 text-base font-normal" name="email" type="email" autocomplete="email" required />
-      </label>
-      <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
-        Pesan
-        <textarea class="min-h-36 border border-black bg-white px-3 py-3 text-base font-normal" name="message" required></textarea>
-      </label>
-      <button class="invert-hover mb-4 min-h-11 w-fit border border-black px-6 py-3 text-xs font-bold uppercase" type="submit">
-        Kirim via Email
-      </button>
-    </form>
+    <div class="grid border-b border-black md:grid-cols-[minmax(0,1.1fr)_minmax(240px,.9fr)]">
+      <form class="grid px-4 md:border-r md:border-black" action={`mailto:${profile.email}`} method="post" enctype="text/plain">
+        <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
+          Nama
+          <input class="min-h-11 border border-black bg-white px-3 text-base font-normal" name="name" type="text" autocomplete="name" required />
+        </label>
+        <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
+          Email
+          <input class="min-h-11 border border-black bg-white px-3 text-base font-normal" name="email" type="email" autocomplete="email" required />
+        </label>
+        <label class="grid gap-2 border-t border-black py-4 text-xs font-bold uppercase">
+          Pesan
+          <textarea class="min-h-36 border border-black bg-white px-3 py-3 text-base font-normal" name="message" required></textarea>
+        </label>
+        <button class="invert-hover mb-4 min-h-11 w-fit border border-black px-6 py-3 text-xs font-bold uppercase" type="submit">
+          Kirim via Email
+        </button>
+      </form>
+      <aside class="border-t border-black px-4 py-8 md:border-t-0 md:py-10">
+        <p class="display max-w-sm text-4xl">Let's build something useful.</p>
+        <p class="mt-5 max-w-sm leading-7">Ceritakan kebutuhan, target, atau ide kasarnya. Kita bisa mulai dari obrolan singkat lalu menyusun langkah yang paling masuk akal.</p>
+      </aside>
+    </div>
   </section>
   <ContactLinks />
 </SiteLayout>

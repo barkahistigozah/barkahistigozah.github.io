@@ -21,8 +21,8 @@ const absoluteImage = image.startsWith('http') ? image : absoluteSiteUrl(image, 
 const keywords = [
   'Barkah Istigozah',
   'portfolio developer',
-  'AI assisted developer',
-  'vibe engineering',
+  'junior full-stack web developer',
+  'AI-assisted engineering',
   'Astro developer',
   'React developer',
   'Laravel developer',
@@ -91,5 +91,23 @@ const structuredData = {
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      const resetPageScroll = () => {
+        if (window.location.hash) return;
+        const previousBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        document.documentElement.style.scrollBehavior = previousBehavior;
+      };
+      window.history.scrollRestoration = 'manual';
+      resetPageScroll();
+      const resetAfterRestore = () => {
+        resetPageScroll();
+        window.setTimeout(resetPageScroll, 100);
+      };
+      window.addEventListener('load', resetAfterRestore, { once: true });
+      window.addEventListener('pageshow', resetAfterRestore, { once: true });
+      document.addEventListener('astro:page-load', resetPageScroll);
+    </script>
   </body>
 </html>

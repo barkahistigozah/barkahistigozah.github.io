@@ -6,11 +6,24 @@ import { profile } from '../data/profile';
   <div class="grid md:grid-cols-2">
     <h2 class="display flex min-h-48 items-center justify-center p-4 text-center text-[clamp(2.5rem,6vw,6rem)]">LET'S BUILD</h2>
     <div class="border-t border-black p-4 md:border-l md:border-t-0">
-      <p class="max-w-2xl leading-7">Terbuka untuk project website, automation, landing page, dan eksperimen produk digital berbasis AI-assisted workflow.</p>
+      <p class="max-w-2xl leading-7">Terbuka untuk peluang remote junior web developer, freelance, internship, landing page, website bisnis, dan aplikasi full-stack.</p>
       <div class="mt-6 flex flex-wrap gap-2">
-        <a class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase" href={`mailto:${profile.email}`}>Email</a>
-        <a class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase" href={profile.github}>GitHub</a>
-        <a class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase" href={profile.linkedin}>LinkedIn</a>
+        <a class="invert-hover inline-flex min-h-11 items-center gap-2 border border-black px-3 py-3 text-xs font-bold uppercase" href={`mailto:${profile.email}`} aria-label="Email">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m4 7 8 6 8-6" /></svg>
+          Email
+        </a>
+        <a class="invert-hover inline-flex min-h-11 items-center gap-2 border border-black px-3 py-3 text-xs font-bold uppercase" href={profile.github} aria-label="GitHub">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.61-3.37-1.18-3.37-1.18-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 7.9c.85 0 1.7.12 2.5.36 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" /></svg>
+          GitHub
+        </a>
+        <a class="invert-hover inline-flex min-h-11 items-center gap-2 border border-black px-3 py-3 text-xs font-bold uppercase" href={profile.linkedin} aria-label="LinkedIn">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.2 8.2H2.1V22h3.1V8.2ZM3.65 2A1.8 1.8 0 1 0 3.65 5.6 1.8 1.8 0 0 0 3.65 2ZM22 13.9c0-4.16-2.22-6.1-5.18-6.1-2.39 0-3.46 1.31-4.06 2.23V8.2H9.65V22h3.11v-6.83c0-1.8.34-3.55 2.57-3.55 2.2 0 2.23 2.07 2.23 3.67V22H20.7v-8.1c0-1.24.24-2.2 1.3-2.2Z" /></svg>
+          LinkedIn
+        </a>
+        <a class="invert-hover inline-flex min-h-11 items-center gap-2 border border-black px-3 py-3 text-xs font-bold uppercase" href={profile.instagram} aria-label="Instagram">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+          Instagram
+        </a>
       </div>
     </div>
   </div>

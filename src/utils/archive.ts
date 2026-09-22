@@ -16,6 +16,13 @@ export type SortDirection = 'asc' | 'desc';
 export const makeArchiveId = (index: number, prefix = 'P') =>
   `${prefix}-${String(index + 1).padStart(4, '0')}`;
 
+export const getInitialProjectId = (projects: ArchiveProject[]) => projects[0]?.id ?? null;
+
+export const paginateProjects = (projects: ArchiveProject[], page: number, pageSize: number) => {
+  const start = Math.max(0, (page - 1) * pageSize);
+  return projects.slice(start, start + pageSize);
+};
+
 const searchableText = (project: ArchiveProject) =>
   [project.archiveId, project.title, project.year, project.role, ...project.tags]
     .join(' ')

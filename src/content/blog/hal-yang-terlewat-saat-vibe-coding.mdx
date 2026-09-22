@@ -1,0 +1,61 @@
+---
+title: "Hal yang Sering Terlewat Saat Melakukan Vibe Coding"
+excerpt: "Vibe coding dapat mempercepat pembuatan aplikasi, tetapi kecepatan tersebut tetap membutuhkan konteks, verifikasi, dan batas keamanan yang jelas."
+date: "2026-06-07"
+tags: ["AI", "Vibe Coding", "Software Engineering"]
+featured: false
+---
+
+Vibe coding membuat proses dari ide menuju prototype terasa sangat cepat. Kita menjelaskan kebutuhan, AI menghasilkan kode, lalu aplikasi mulai terlihat bekerja. Masalahnya, sesuatu yang tampil benar di layar belum tentu benar ketika menerima input aneh, digunakan banyak orang, atau dijalankan dalam waktu lama.
+
+Kecepatan tetap berguna. Yang perlu dihindari adalah menjadikan kecepatan sebagai pengganti pemahaman.
+
+## Konteks Project Tidak Diberikan Secara Utuh
+
+AI hanya mengetahui konteks yang tersedia. Jika prompt tidak menjelaskan framework, versi runtime, pola yang sudah dipakai, dan batasan project, hasilnya dapat terlihat masuk akal tetapi tidak cocok dengan codebase.
+
+Sebelum meminta perubahan, berikan tujuan dan batasannya. Minta AI membaca manifest, struktur folder, implementasi serupa, serta test yang sudah ada. Solusi kecil yang mengikuti pola project biasanya lebih aman daripada solusi besar yang membawa pola baru.
+
+## Kode Berjalan, tetapi Tidak Dipahami
+
+Salah satu jebakan paling umum adalah menerima kode karena berhasil dijalankan sekali. Developer tetap perlu mengetahui data masuk dari mana, divalidasi di mana, disimpan ke mana, dan apa yang terjadi ketika proses gagal.
+
+Jika bagian penting tidak dapat dijelaskan kembali dengan bahasa sederhana, bagian tersebut belum siap dianggap selesai. Minta penjelasan pada keputusan yang berisiko, tetapi tetap periksa kode aslinya. Penjelasan AI bukan bukti bahwa implementasinya benar.
+
+## Happy Path Dianggap Cukup
+
+Demo biasanya memakai data yang rapi. Pengguna nyata dapat mengirim field kosong, file terlalu besar, request ganda, koneksi terputus, atau ID milik pengguna lain.
+
+Minimal, periksa beberapa kondisi berikut:
+
+- input kosong, tidak valid, dan terlalu besar;
+- kegagalan jaringan atau database;
+- submit ganda dan proses yang harus idempotent;
+- akses langsung ke route atau resource pengguna lain;
+- tampilan mobile, keyboard, dan reduced motion.
+
+Test kecil yang mereproduksi kegagalan lebih berguna daripada banyak perubahan yang hanya mempercantik happy path.
+
+## Keamanan Diserahkan kepada Tampilan
+
+Menyembunyikan tombol bukan authorization. Validasi di browser juga bukan pengganti validasi server. Backend harus memeriksa identitas, kepemilikan resource, izin, batas ukuran, dan format data pada setiap trust boundary.
+
+Secret juga tidak boleh ditempel ke prompt, source code, log, atau bundle frontend. Gunakan environment variable dan batasi akses hanya pada proses yang membutuhkannya.
+
+## Dependency Ditambahkan Tanpa Alasan
+
+AI sering menawarkan package untuk masalah yang sebenarnya sudah diselesaikan oleh standard library, browser, framework, atau dependency yang telah terpasang. Setiap dependency baru menambah ukuran bundle, waktu update, dan permukaan risiko.
+
+Sebelum menginstal sesuatu, tanyakan: apakah fitur native sudah cukup? Apakah helper serupa sudah ada di repository? Jika beberapa baris kode standar dapat menyelesaikannya dengan jelas, package baru mungkin tidak diperlukan.
+
+## Tidak Memeriksa Perubahan secara Menyeluruh
+
+Review diff sebelum menerima hasil. Pastikan AI tidak mengubah file yang tidak berhubungan, menimpa konfigurasi, menghapus fallback, atau memperluas scope secara diam-diam. Setelah itu jalankan formatter, type checker, test, build, dan smoke test yang relevan.
+
+Untuk antarmuka, screenshot statis saja tidak cukup. Coba interaksi utama, ukuran viewport berbeda, scroll, keyboard, dan kondisi error. Untuk backend, uji otorisasi dan kegagalan, bukan hanya respons sukses.
+
+## Dokumentasi dan Maintenance Dilupakan
+
+Kode hasil AI tetap akan dirawat manusia. Nama yang jelas, struktur sederhana, dan keputusan yang konsisten lebih penting daripada abstraksi yang terlihat canggih. Jangan membuat factory, interface, atau konfigurasi untuk kemungkinan yang belum ada.
+
+Vibe coding paling efektif ketika diperlakukan sebagai akselerator, bukan autopilot. AI membantu membuat draft dan mengeksplorasi solusi. Developer tetap bertanggung jawab pada konteks, keamanan, pengujian, dan keputusan akhir yang masuk ke project.

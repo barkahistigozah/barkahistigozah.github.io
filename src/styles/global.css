@@ -141,8 +141,24 @@ canvas {
   opacity: 1;
 }
 
+.archive-hero-enter > * {
+  animation: archive-hero-enter 300ms ease-out both;
+}
+
+.archive-hero-enter > :nth-child(2) {
+  animation-delay: 40ms;
+}
+
+@keyframes archive-hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
 .content-body {
   max-width: 72ch;
+  margin-inline: auto;
   font-size: 1rem;
   line-height: 1.75;
 }
@@ -217,6 +233,49 @@ dialog::backdrop {
   display: none;
 }
 
+.menu-icon {
+  position: relative;
+  display: block;
+  width: 1.25rem;
+  height: 1rem;
+  flex: none;
+}
+
+.menu-icon span {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--snap), opacity var(--snap), top var(--snap);
+}
+
+.menu-icon span:nth-child(1) {
+  top: 0;
+}
+
+.menu-icon span:nth-child(2) {
+  top: 7px;
+}
+
+.menu-icon span:nth-child(3) {
+  top: 14px;
+}
+
+.site-nav[open] .menu-icon span:nth-child(1) {
+  top: 7px;
+  transform: rotate(45deg);
+}
+
+.site-nav[open] .menu-icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-nav[open] .menu-icon span:nth-child(3) {
+  top: 7px;
+  transform: rotate(-45deg);
+}
+
 .site-nav[open] .nav-links {
   display: flex;
 }
@@ -265,28 +324,16 @@ dialog::backdrop {
 }
 
 .archive-preview {
-  position: sticky;
-  top: 57px;
+  position: relative;
+  align-self: start;
   width: 100%;
-  max-height: calc(100dvh - 57px);
   margin: 0;
   padding: 0;
   border: 0;
   border-left: 1px solid var(--line);
   background: var(--paper);
   color: var(--ink);
-  overflow: auto;
-}
-
-@media (min-width: 860px) {
-  .archive-preview {
-    position: fixed;
-    inset: 57px 0 0 auto;
-    width: min(34vw, 480px);
-    max-height: none;
-    margin: 0;
-    border-left: 1px solid var(--line);
-  }
+  overflow: visible;
 }
 
 .archive-preview-media {
@@ -295,6 +342,18 @@ dialog::backdrop {
 
 .archive-preview-media img {
   filter: drop-shadow(6px 6px 0 var(--ink));
+}
+
+.preview-close {
+  border: 1px solid var(--line) !important;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.preview-close:hover,
+.preview-close:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
 }
 
 .back-to-top {
@@ -330,10 +389,14 @@ dialog::backdrop {
   }
 
   .archive-preview:modal {
+    display: block;
     inset: auto 0 0;
+    height: min(92dvh, 680px);
     max-width: none;
-    max-height: min(82dvh, 680px);
+    max-height: min(92dvh, 680px);
     border: 1px solid var(--line);
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 

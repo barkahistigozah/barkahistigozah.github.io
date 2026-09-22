@@ -19,19 +19,17 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 
 ---
 
 <SiteLayout title={title} description={description} type="article" image={image} publishedTime={date} tags={tags}>
-  <article class="page-shell reveal py-14 md:py-20">
-    <a href={withBase(backHref)} class="text-sm font-black text-[color:var(--accent-strong)] underline decoration-[0.1em] underline-offset-4">{backLabel}</a>
-    <header class="mt-8 max-w-4xl">
-      <p class="eyebrow">{eyebrow}</p>
-      <h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">{title}</h1>
-      <p class="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--muted)]">{description}</p>
-      <div class="mt-7 flex flex-col gap-4 border-y border-[color:var(--line)] py-5 sm:flex-row sm:items-center sm:justify-between">
-        <time class="font-bold text-[color:var(--muted)]" datetime={date.toISOString()}>{formattedDate}</time>
+  <article class="page-shell mx-auto max-w-[1280px] py-10 md:py-16">
+    <a href={withBase(backHref)} class="inline-flex min-h-11 items-center px-4 text-xs font-bold uppercase underline">← {backLabel}</a>
+    <header class="border-y border-black px-4 py-8 md:py-10">
+      <p class="text-xs font-bold uppercase">{eyebrow}</p>
+      <h1 class="display mt-4 max-w-5xl text-[clamp(3rem,8vw,8rem)]">{title}</h1>
+      <p class="mt-6 max-w-3xl text-lg leading-8">{description}</p>
+      <div class="mt-8 grid gap-4 border-t border-black pt-4 sm:grid-cols-[180px_1fr]">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
         <TagList tags={tags} />
       </div>
     </header>
-    <div class="content-body mt-10 max-w-3xl">
-      <slot />
-    </div>
+    <div class="content-body px-4 py-10"><slot /></div>
   </article>
 </SiteLayout>

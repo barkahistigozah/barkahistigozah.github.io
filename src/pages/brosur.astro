@@ -1,0 +1,594 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { profile } from '../data/profile';
+import { withBase } from '../utils/urls';
+
+const services = [
+  {
+    title: 'Company Profile',
+    description: 'Website profesional untuk memperkenalkan bisnis, layanan, portofolio, dan kontak secara jelas.',
+  },
+  {
+    title: 'Blog',
+    description: 'Platform artikel yang ringan, mudah dikelola, dan siap untuk membangun kepercayaan audiens.',
+  },
+  {
+    title: 'Website UMKM',
+    description: 'Landing page atau katalog sederhana untuk jualan, promosi, dan menerima calon pelanggan baru.',
+  },
+  {
+    title: 'Licensing Engine App',
+    description: 'Aplikasi validasi lisensi untuk produk digital, script, plugin, atau software internal.',
+  },
+  {
+    title: 'Point Of Sale (POS)',
+    description: 'Sistem kasir berbasis web untuk transaksi, produk, laporan, dan operasional harian.',
+  },
+  {
+    title: 'Portfolio',
+    description: 'Website personal atau brand yang menampilkan karya, profil, pengalaman, dan kontak.',
+  },
+  {
+    title: 'Custom Website',
+    description: 'Kebutuhan lain seperti dashboard, automation, integrasi API, atau aplikasi internal.',
+  },
+];
+
+const steps = ['Konsultasi kebutuhan', 'Desain alur dan tampilan', 'Development cepat dan rapi', 'Deploy serta pendampingan'];
+const contactHref = `mailto:${profile.email}?subject=Konsultasi%20Jasa%20Web%20Development`;
+---
+
+<SiteLayout
+  title="Brosur Jasa Web Development"
+  description="Jasa web development untuk company profile, blog, website UMKM, licensing engine app, POS, portfolio, dan custom website."
+  tags={['jasa web development', 'company profile', 'website UMKM', 'POS', 'licensing engine']}
+>
+  <section class="brochure-hero">
+    <div class="page-shell brochure-wrap">
+      <div class="brochure-sheet reveal">
+        <div class="hero-copy">
+          <p class="mini-label">Jasa Web Development</p>
+          <h1>Website modern untuk bisnis terpercaya.</h1>
+          <p class="hero-lead">
+            Bangun website, sistem penjualan, dan aplikasi web yang rapi, cepat, responsif,
+            serta mudah dikembangkan sesuai kebutuhan bisnis.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href={contactHref}>Konsultasi Sekarang</a>
+            <a class="ghost-action" href={withBase('/portfolio/')}>Lihat Portfolio</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" aria-label="Preview layanan web development">
+          <div class="browser-preview">
+            <div class="browser-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <img src={withBase('/images/portfolio.webp')} alt="Preview portfolio web development Barkah Istigozah" />
+          </div>
+          <div class="metric-strip" aria-label="Keunggulan layanan">
+            <span>Responsive</span>
+            <span>SEO Ready</span>
+            <span>Fast Delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-shell services-section reveal" aria-labelledby="services-heading">
+    <div class="section-head">
+      <p class="mini-label">Layanan</p>
+      <h2 id="services-heading">Pilih kebutuhan websitemu.</h2>
+      <p>
+        Dari halaman profil bisnis sampai aplikasi operasional, setiap project dibuat dengan struktur yang jelas dan mudah dirawat.
+      </p>
+    </div>
+
+    <div class="service-grid">
+      {services.map((service, index) => (
+        <article class="service-item">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="page-shell brochure-bottom reveal" aria-label="Alur kerja dan kontak">
+    <div class="process-band">
+      <div>
+        <p class="mini-label">Cara Kerja</p>
+        <h2>Dari ide sampai online.</h2>
+      </div>
+      <ol>
+        {steps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="cta-band">
+      <div>
+        <p class="mini-label">Siap Dibuat?</p>
+        <h2>Bikin websitemu terlihat serius, elegan, dan mudah dihubungi.</h2>
+        <p>{profile.email}</p>
+      </div>
+      <div class="cta-actions">
+        <a class="primary-action" href={contactHref}>Hubungi Barkah</a>
+        <button class="print-action" type="button" data-print-button>Cetak / PDF</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const printButton = document.querySelector('[data-print-button]');
+    printButton?.addEventListener('click', () => window.print());
+  </script>
+</SiteLayout>
+
+<style>
+  .brochure-hero {
+    padding: 4.5rem 0 3rem;
+  }
+
+  .brochure-wrap {
+    perspective: 1200px;
+  }
+
+  .brochure-sheet {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+    min-height: 560px;
+    border: 1px solid rgba(11, 42, 74, 0.14);
+    border-radius: 8px;
+    background:
+      linear-gradient(120deg, rgba(255, 250, 240, 0.98) 0%, rgba(255, 247, 232, 0.9) 48%, rgba(11, 42, 74, 0.08) 100%),
+      var(--panel-solid);
+    box-shadow: 0 28px 90px rgba(11, 42, 74, 0.13);
+    padding: clamp(1.25rem, 4vw, 3.5rem);
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 680px;
+    min-width: 0;
+  }
+
+  .mini-label {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    border: 1px solid rgba(200, 166, 106, 0.42);
+    border-radius: 999px;
+    background: rgba(255, 250, 240, 0.78);
+    padding: 0.5rem 0.76rem;
+    color: var(--wine);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .mini-label::before {
+    width: 0.5rem;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--gold);
+    box-shadow: 0 0 18px rgba(200, 166, 106, 0.72);
+    content: "";
+  }
+
+  .hero-copy h1 {
+    max-width: 12ch;
+    margin: 1.4rem 0 0;
+    color: var(--navy);
+    font-size: clamp(3rem, 6.4vw, 5.6rem);
+    font-weight: 950;
+    letter-spacing: 0;
+    line-height: 0.92;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .hero-lead {
+    max-width: 58ch;
+    margin: 1.45rem 0 0;
+    color: #4b5360;
+    font-size: clamp(1.02rem, 2vw, 1.22rem);
+    line-height: 1.75;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .primary-action,
+  .ghost-action,
+  .print-action {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 0.78rem 1rem;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 850;
+    letter-spacing: 0;
+    cursor: pointer;
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .primary-action {
+    border: 1px solid rgba(11, 42, 74, 0.18);
+    background: linear-gradient(135deg, var(--navy), var(--wine));
+    color: var(--cream);
+  }
+
+  .ghost-action,
+  .print-action {
+    border: 1px solid rgba(11, 42, 74, 0.22);
+    background: rgba(255, 250, 240, 0.7);
+    color: var(--navy);
+  }
+
+  .print-action {
+    appearance: none;
+  }
+
+  .primary-action:hover,
+  .ghost-action:hover,
+  .print-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(11, 42, 74, 0.12);
+  }
+
+  .hero-panel {
+    display: grid;
+    align-content: center;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .browser-preview {
+    overflow: hidden;
+    border: 1px solid rgba(11, 42, 74, 0.14);
+    border-radius: 8px;
+    background: #fffaf0;
+    box-shadow: 0 24px 60px rgba(11, 42, 74, 0.16);
+    transform: rotate(1.5deg);
+  }
+
+  .browser-top {
+    display: flex;
+    gap: 0.42rem;
+    border-bottom: 1px solid rgba(11, 42, 74, 0.11);
+    padding: 0.72rem;
+  }
+
+  .browser-top span {
+    display: block;
+    width: 0.62rem;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: var(--gold);
+  }
+
+  .browser-top span:nth-child(2) {
+    background: var(--sky);
+  }
+
+  .browser-top span:nth-child(3) {
+    background: var(--wine);
+  }
+
+  .browser-preview img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: left top;
+  }
+
+  .metric-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.7rem;
+  }
+
+  .metric-strip span {
+    display: flex;
+    min-height: 86px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(11, 42, 74, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 250, 240, 0.74);
+    color: var(--navy);
+    font-weight: 900;
+    text-align: center;
+  }
+
+  .services-section,
+  .brochure-bottom {
+    padding: 3rem 0 0;
+  }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1fr);
+    gap: clamp(1rem, 3vw, 2.5rem);
+    align-items: end;
+  }
+
+  .section-head h2,
+  .process-band h2,
+  .cta-band h2 {
+    margin: 0.8rem 0 0;
+    color: var(--navy);
+    font-size: clamp(2rem, 4vw, 3.35rem);
+    font-weight: 950;
+    letter-spacing: 0;
+    line-height: 1;
+  }
+
+  .section-head p:last-child,
+  .cta-band p {
+    margin: 0;
+    color: #555d68;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.88rem;
+    margin-top: 1.4rem;
+  }
+
+  .service-item {
+    min-height: 220px;
+    border: 1px solid rgba(11, 42, 74, 0.13);
+    border-radius: 8px;
+    background: rgba(255, 250, 240, 0.76);
+    padding: 1.1rem;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
+  }
+
+  .service-item:hover {
+    border-color: rgba(200, 166, 106, 0.56);
+    box-shadow: 0 18px 44px rgba(11, 42, 74, 0.11);
+    transform: translateY(-4px);
+  }
+
+  .service-item span {
+    color: var(--gold);
+    font-size: 0.86rem;
+    font-weight: 950;
+  }
+
+  .service-item h3 {
+    margin: 1.4rem 0 0;
+    color: var(--navy);
+    font-size: 1.35rem;
+    font-weight: 950;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+
+  .service-item p {
+    margin: 0.78rem 0 0;
+    color: #4d5662;
+    line-height: 1.65;
+  }
+
+  .brochure-bottom {
+    display: grid;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .process-band,
+  .cta-band {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.68fr) minmax(0, 1fr);
+    gap: clamp(1.2rem, 4vw, 3rem);
+    align-items: center;
+    border-radius: 8px;
+    padding: clamp(1.25rem, 3vw, 2.2rem);
+  }
+
+  .process-band {
+    border: 1px solid rgba(11, 42, 74, 0.13);
+    background: rgba(255, 250, 240, 0.74);
+  }
+
+  .process-band ol {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .process-band li {
+    position: relative;
+    min-height: 122px;
+    border: 1px solid rgba(11, 42, 74, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.48);
+    padding: 3rem 0.85rem 0.9rem;
+    color: var(--navy);
+    font-weight: 850;
+    line-height: 1.25;
+    counter-increment: step;
+  }
+
+  .process-band li::before {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.85rem;
+    color: var(--wine);
+    content: '0' counter(step);
+    font-size: 0.88rem;
+    font-weight: 950;
+  }
+
+  .cta-band {
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(11, 42, 74, 0.97), rgba(74, 22, 40, 0.96)),
+      var(--navy);
+    color: var(--cream);
+  }
+
+  .cta-band .mini-label {
+    background: rgba(255, 250, 240, 0.11);
+    color: var(--cream);
+  }
+
+  .cta-band h2 {
+    color: var(--cream);
+  }
+
+  .cta-band p {
+    margin-top: 1rem;
+    color: rgba(255, 250, 240, 0.78);
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+
+  .cta-band .ghost-action,
+  .cta-band .print-action {
+    border-color: rgba(255, 250, 240, 0.24);
+    background: rgba(255, 250, 240, 0.08);
+    color: var(--cream);
+  }
+
+  .cta-actions {
+    justify-content: end;
+    margin-top: 0;
+  }
+
+  @media (max-width: 960px) {
+    .brochure-sheet,
+    .section-head,
+    .process-band,
+    .cta-band {
+      grid-template-columns: 1fr;
+    }
+
+    .brochure-sheet {
+      min-height: auto;
+    }
+
+    .hero-copy h1 {
+      max-width: 12ch;
+    }
+
+    .service-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process-band ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cta-actions {
+      justify-content: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .brochure-hero {
+      padding-top: 2rem;
+    }
+
+    .brochure-sheet {
+      padding: 1rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2.35rem, 12.5vw, 3rem);
+      line-height: 0.96;
+    }
+
+    .hero-actions,
+    .cta-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .metric-strip,
+    .service-grid,
+    .process-band ol {
+      grid-template-columns: 1fr;
+    }
+
+    .metric-strip span,
+    .process-band li {
+      min-height: 76px;
+    }
+  }
+
+  @media print {
+    :global(.site-header),
+    :global(footer),
+    :global(.animated-bg),
+    .ghost-action,
+    .print-action {
+      display: none !important;
+    }
+
+    :global(body) {
+      background: #fffaf0 !important;
+    }
+
+    .brochure-hero,
+    .services-section,
+    .brochure-bottom {
+      padding: 0 !important;
+    }
+
+    .page-shell {
+      width: 100%;
+    }
+
+    .brochure-sheet,
+    .process-band,
+    .cta-band,
+    .service-item {
+      box-shadow: none;
+      break-inside: avoid;
+    }
+
+    .brochure-sheet {
+      min-height: auto;
+      margin-bottom: 12mm;
+    }
+  }
+</style>

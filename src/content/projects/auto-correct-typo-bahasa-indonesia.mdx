@@ -1,0 +1,30 @@
+---
+title: "Auto-Correct Typo Bahasa Indonesia"
+description: "Aplikasi self-hosted untuk mendeteksi, meninjau, dan memperbaiki typo Bahasa Indonesia dari teks atau file DOCX."
+thumbnail: "/images/acory.webp"
+date: "2026-09-22"
+role: "Full-Stack Web Developer"
+tags: ["React 19", "TypeScript", "Vite", "FastAPI", "SQLite", "Docker Compose", "Nginx"]
+featured: true
+repositoryLink: "https://github.com/barkahistigozah/auto-correct-typo-bahasa-indonesia"
+---
+
+## Ringkasan
+
+Auto-Correct Typo Bahasa Indonesia adalah aplikasi local-first dan self-hosted untuk membantu penulis, editor, dan tim penerbitan menemukan serta memperbaiki typo dari teks yang ditempel atau file DOCX. Hasil koreksi dapat diekspor ke DOCX baru tanpa menimpa file asli.
+
+## Peran
+
+Saya membangun frontend React 19 + TypeScript + Vite, backend FastAPI, penyimpanan metadata SQLite, document processing service, dan service normalisasi terpisah. Runtime production lokal memakai Docker Compose dan Nginx sebagai reverse proxy.
+
+## Problem
+
+Pemeriksaan naskah membutuhkan kontrol atas setiap saran dan privasi dokumen. Aplikasi ini menjaga naskah di lingkungan lokal atau server sendiri, lalu mengklasifikasikan saran sebagai aman, perlu dicek, atau diabaikan agar keputusan akhir tetap berada pada pengguna.
+
+## Impact
+
+- Mendukung paste teks dan upload DOCX.
+- Menggabungkan kamus Hunspell Bahasa Indonesia, SymSpell, personal dictionary, dan model normalisasi ringan.
+- Menyediakan accept, reject, apply-safe, undo, reset, dan export DOCX.
+- Menangani nama karakter, tempat, slang, istilah fiksi, dan kata khusus melalui personal dictionary.
+- Menyediakan health check, request ID, security headers, trusted hosts, rate limiting, dan security audit log.

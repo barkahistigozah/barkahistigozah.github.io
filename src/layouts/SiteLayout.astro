@@ -21,8 +21,8 @@ const absoluteImage = image.startsWith('http') ? image : absoluteSiteUrl(image, 
 const keywords = [
   'Barkah Istigozah',
   'portfolio developer',
-  'AI assisted developer',
-  'vibe engineering',
+  'junior full-stack web developer',
+  'AI-assisted engineering',
   'Astro developer',
   'React developer',
   'Laravel developer',
@@ -55,7 +55,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="id">
+<html id="top" lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -85,46 +85,29 @@ const structuredData = {
     <title>{pageTitle}</title>
   </head>
   <body>
-    <div class="animated-bg" aria-hidden="true">
-      <span class="bg-aurora bg-aurora-a"></span>
-      <span class="bg-aurora bg-aurora-b"></span>
-      <span class="bg-aurora bg-aurora-c"></span>
-      <span class="bg-orbit bg-orbit-a"></span>
-      <span class="bg-orbit bg-orbit-b"></span>
-    </div>
+    <a class="skip-link" href="#main-content">Lewati ke konten</a>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />
-    <script>
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const smallScreen = window.matchMedia('(max-width: 767px)').matches;
-      const revealItems = document.querySelectorAll('.reveal');
-
-      if (reduceMotion || smallScreen || !('IntersectionObserver' in window)) {
-        revealItems.forEach((item) => item.classList.add('is-visible'));
-      } else {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          {
-            rootMargin: '0px 0px -12% 0px',
-            threshold: 0.16,
-          },
-        );
-
-        revealItems.forEach((item, index) => {
-          item.setAttribute('style', `${item.getAttribute('style') ?? ''}; --reveal-delay: ${Math.min(index * 55, 260)}ms`);
-          observer.observe(item);
-        });
-      }
+    <script is:inline>
+      const resetPageScroll = () => {
+        if (window.location.hash) return;
+        const previousBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        document.documentElement.style.scrollBehavior = previousBehavior;
+      };
+      window.history.scrollRestoration = 'manual';
+      resetPageScroll();
+      const resetAfterRestore = () => {
+        resetPageScroll();
+        window.setTimeout(resetPageScroll, 100);
+      };
+      window.addEventListener('load', resetAfterRestore, { once: true });
+      window.addEventListener('pageshow', resetAfterRestore, { once: true });
+      document.addEventListener('astro:page-load', resetPageScroll);
     </script>
   </body>
 </html>

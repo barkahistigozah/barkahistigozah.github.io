@@ -8,31 +8,28 @@ import { withBase } from '../utils/urls';
 
 <SiteLayout
   title="About"
-  description="Profil singkat Barkah Istigozah, developer yang fokus pada AI-assisted development, web engineering, dan automation."
+  description="Profil Barkah Istigozah, junior full-stack web developer dengan 4+ tahun pengalaman freelance dan workflow AI-assisted engineering."
 >
-  <section class="page-shell reveal grid gap-10 py-14 md:grid-cols-[0.8fr_1.2fr] md:py-20">
-    <div class="reveal">
-      <p class="eyebrow">About</p>
-      <h1 class="mt-4 text-4xl font-black leading-tight md:text-6xl">{profile.name}</h1>
-      <div class="portrait-card mt-6 overflow-hidden rounded-[8px] border border-[color:var(--line)] bg-[color:var(--panel)]">
-        <img src={withBase(profile.image)} alt={`Portrait of ${profile.name}`} class="aspect-[4/5] w-full object-cover" width="640" height="800" />
-      </div>
+  <section class="page-shell grid gap-8 py-10 md:grid-cols-[minmax(260px,.7fr)_minmax(0,1.3fr)] md:py-16">
+    <div class="min-w-0 px-4">
+      <p class="text-xs font-bold uppercase">About Dossier</p>
+      <h1 class="display mt-4 max-w-full text-[clamp(3rem,5vw,5rem)]">{profile.name}</h1>
+      <img src={withBase(profile.image)} alt={`Portrait of ${profile.name}`} class="mt-6 aspect-[4/5] w-full border border-black object-cover" width="640" height="800" />
     </div>
-    <div class="content-body reveal max-w-3xl [animation-delay:140ms]">
-      <p>
-        Saya adalah developer yang sedang fokus membangun portfolio di bidang web development, automation, dan AI-assisted workflow.
-        Pendekatan saya sederhana: pahami masalahnya, buat struktur yang mudah dirawat, lalu iterasi cepat sampai hasilnya terasa berguna.
+    <div class="min-w-0 max-w-3xl border-t border-black px-4 pt-6 md:pt-12">
+      <p class="max-w-prose text-base leading-7">
+        Saya adalah Junior Full-Stack Web Developer dengan 4+ tahun pengalaman freelance membangun landing page, website bisnis,
+        dan aplikasi web full-stack. Saya terbuka untuk peluang remote junior web developer, freelance, dan internship.
       </p>
-      <h2>Fokus Keahlian</h2>
-      <p>
-        Fokus utama saya adalah Vibe Engineering dan AI Assisted Development, terutama untuk membuat website, prototipe produk, dan sistem kecil yang bisa
-        membantu pekerjaan sehari-hari.
+      <section class="mt-8 space-y-4 border-t border-black py-6"><h2 class="display text-3xl">Fokus Keahlian</h2>
+      <p class="max-w-prose leading-7">
+        Saya menggunakan AI-assisted engineering untuk mempercepat debugging, refactoring, penulisan boilerplate, dokumentasi,
+        dan eksplorasi solusi, lalu tetap meninjau logika serta kualitas implementasi akhir secara mandiri.
       </p>
-      <TagList tags={profile.skills} />
-      <h2>Bahasa dan Framework</h2>
-      <TagList tags={profile.languages} />
-      <h2>Tools</h2>
-      <TagList tags={profile.tools} />
+      <TagList tags={profile.skills} /></section>
+      <section class="space-y-4 border-t border-black py-6"><h2 class="display text-3xl">Bahasa Framework</h2><TagList tags={profile.languages} /></section>
+      <section class="space-y-4 border-t border-black py-6"><h2 class="display text-3xl">Database</h2><TagList tags={profile.databases} /></section>
+      <section class="space-y-4 border-y border-black py-6"><h2 class="display text-3xl">Tools</h2><TagList tags={profile.tools} /></section>
     </div>
   </section>
   <ContactLinks />

@@ -2,13 +2,27 @@
 import { profile } from '../data/profile';
 ---
 
-<footer class="mt-24 border-t border-[color:var(--line)] py-8">
-  <div class="page-shell flex flex-col gap-4 text-sm text-[color:var(--muted)] md:flex-row md:items-center md:justify-between">
-    <p>© {new Date().getFullYear()} {profile.name}.</p>
-    <div class="flex flex-wrap gap-4 font-bold text-[color:var(--ink)]">
-      <a class="hover:text-[color:var(--accent-strong)]" href={profile.github}>GitHub</a>
-      <a class="hover:text-[color:var(--accent-strong)]" href={profile.linkedin}>LinkedIn</a>
-      <a class="hover:text-[color:var(--accent-strong)]" href={`mailto:${profile.email}`}>Email</a>
+<footer class="mt-20 bg-black text-white">
+  <div class="page-shell border-b border-white px-4 py-8">
+    <p class="display text-[clamp(3.5rem,15vw,13rem)]">AVAILABLE FOR WORK</p>
+  </div>
+  <div class="page-shell grid gap-8 px-4 py-8 text-xs uppercase md:grid-cols-3">
+    <div>
+      <p>Developer</p>
+      <p class="mt-2">{profile.name}</p>
+      <p>{profile.location}</p>
+    </div>
+    <div>
+      <p>Contact</p>
+      <a class="underline" href={`mailto:${profile.email}`}>Email</a><br />
+      <a class="underline" href={profile.github}>GitHub</a><br />
+      <a class="underline" href={profile.linkedin}>LinkedIn</a><br />
+      <a class="underline" href={profile.instagram}>Instagram</a>
+    </div>
+    <div>
+      <p>Colophon</p>
+      <p class="mt-2 normal-case leading-6">You imagine, our code delivers</p>
     </div>
   </div>
+  <a class="back-to-top" href="#top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</a>
 </footer>

@@ -25,19 +25,17 @@ const { Content } = await render(project);
   backLabel="Kembali ke portfolio"
   image={project.data.thumbnail}
 >
-  <div class="portrait-card mb-8 overflow-hidden rounded-[8px] border border-[color:var(--line)] bg-[color:var(--panel)]">
-    <img src={withBase(project.data.thumbnail)} alt={`Thumbnail ${project.data.title}`} class="aspect-[16/9] w-full object-cover" loading="eager" width="1280" height="720" />
-  </div>
+  <img src={withBase(project.data.thumbnail)} alt={`Thumbnail ${project.data.title}`} class="mb-8 aspect-video w-full border border-black object-cover" loading="eager" width="1280" height="720" />
   <Content />
   {(project.data.externalLink || project.data.repositoryLink) && (
     <div class="mt-10 flex flex-wrap gap-3">
       {project.data.externalLink && (
-        <a href={project.data.externalLink} class="motion-button text-panel inline-flex items-center justify-center rounded-full bg-[color:var(--ink)] px-6 py-3 text-sm font-bold transition hover:bg-[color:var(--accent-strong)]">
+        <a href={project.data.externalLink} class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase">
           Live / Demo
         </a>
       )}
       {project.data.repositoryLink && (
-        <a href={project.data.repositoryLink} class="motion-button rounded-full border border-[color:var(--ink)] px-5 py-3 text-sm font-bold transition hover:bg-[color:var(--panel)]">
+        <a href={project.data.repositoryLink} class="invert-hover inline-flex min-h-11 items-center border border-black px-4 py-3 text-xs font-bold uppercase">
           Repository
         </a>
       )}
